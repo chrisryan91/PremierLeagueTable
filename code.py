@@ -1,38 +1,10 @@
-table = SHEET.worksheet('table')
-fixtures = SHEET.worksheet('fixtures')
 
 
-
-Arsenal = table.find("Arsenal")
-AstonVilla = table.find("Aston Villa")
-Bournemouth = table.find("Bournemouth")
-Brentford = table.find("Brentford")
-Brighton = table.find("Brighton")
-Burnley = table.find("Burnley")
-Chelsea = table.find("Chelsea")
-CrystalPalace = table.find("Crystal Palace")
-Everton = table.find("Everton")
-Fulham = table.find("Fulham")
-Liverpool = table.find("Liverpool")
-Luton = table.find("Luton")
-ManCity = table.find("Manchester City")
-ManUnited = table.find("Manchester United")
-Newcastle = table.find("Newcastle")
-Nottingham = table.find("Newcastle")
-Sheffield = table.find("Sheffield")
-Tottenham = table.find("Tottenham")
-WestHam = table.find("West Ham")
-Wolves = table.find("Wolves")
-
-team_a = (Arsenal, Bournemouth, Chelsea, Brentford, ManUnited)
-
-team_b = (Wolves, WestHam, Brentford, Sheffield)
 
 
 """"
 team_one = fixtures.get('C2:C381')
 team_two = fixtures.get('D2:D381')
-"""
 
 def get_match_winner():
 
