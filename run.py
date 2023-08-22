@@ -807,7 +807,7 @@ Wolves)
 
 def get_match_winner():
 
-    #while True:
+    while True:
         for (a, b) in zip(team_a, team_b):
             print("----------------------------------------")
             print(f"Enter the goals scored for {a} and {b} \n")
@@ -815,34 +815,33 @@ def get_match_winner():
             print(f"{b} play away! \n")
 
             team_one_score = input(f"Enter {a} goals scored here: \n")
-            team_two_score = input(f"Enter {b} goals scored here: \n")
 
-            #validate_data(team_one_score, team_two_score)
+            team_two_score = input(f"Enter {b} goals scored here: \n")
 
             if team_one_score > team_two_score:
 
                 home_team_winner(a, b, team_one_score, team_two_score)
+                table.sort((2, 'des'), range='A2:H21')
 
             elif team_one_score == team_two_score:
                 
-                draw(a, b, team_one_score, team_two_score)   
+                draw(a, b, team_one_score, team_two_score)
+                table.sort((2, 'des'), range='A2:H21')   
                 
             else:
                 
                 away_team_winner(a, b, team_one_score, team_two_score)
-
-                
-        """"
-        if validate_data(team_one_score, team_two_score):
+                table.sort((2, 'des'), range='A2:H21')
+        
+        """
+        if validate_data(a, b, team_one_score, team_two_score):
             print("Data is valid!")
             break
-        """
 
-""" 
-def validate_data(c, d):
+def validate_data(team_one_score, team_two_score):
 
     try:
-        [int(a, b) for (a, b) in zip(a, b)] 
+        [int(a, b) for (a, b,) in zip(team_a, team_b)] 
         raise ValueError(
             f"Please enter a single numerical digit \n"
         )
@@ -852,6 +851,7 @@ def validate_data(c, d):
         return False
 
     return True
+
 """
 
 def home_team_winner(a, b, team_one_score, team_two_score):
@@ -882,7 +882,6 @@ def home_team_winner(a, b, team_one_score, team_two_score):
     cell7ToUpdate = table.cell(cellLookup.row, col7ToUpdate+1)
 
     # update the cell's value
-
     cellToUpdate.value = int(cellToUpdate.value) + 3
     cell2ToUpdate.value = int(cell2ToUpdate.value) + 1
     cell5ToUpdate.value = team_one_score
@@ -924,8 +923,6 @@ def home_team_winner(a, b, team_one_score, team_two_score):
     # now, do it
 
     table.update_cells(cell_list)
-
-    table.sort((2, 'des'), range='A2:H21')
 
 def draw(a, b, team_one_score, team_two_score):
 
@@ -993,8 +990,6 @@ def draw(a, b, team_one_score, team_two_score):
     # now, do it
 
     table.update_cells(cell_list)
-
-    table.sort((2, 'des'), range='A2:H21')
 
 def away_team_winner(a, b, team_one_score, team_two_score):
 
@@ -1067,7 +1062,5 @@ def away_team_winner(a, b, team_one_score, team_two_score):
     # now, do it
 
     table.update_cells(cell_list)
-
-    table.sort((2, 'des'), range='A2:H21')
 
 get_match_winner()
