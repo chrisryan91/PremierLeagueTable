@@ -3,6 +3,8 @@ from google.oauth2.service_account import Credentials
 
 import numpy as np
 
+import time
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -19,29 +21,37 @@ SHEET = GSPREAD_CLIENT.open('league_table')
 table = SHEET.worksheet('table')
 fixtures = SHEET.worksheet('fixtures')
 
-columns = ["", "Points", "Matches Played", "Won", "Draw", "Loss", "Goals Scored", "Goals Against", "Goal Difference"]
-rows = [["Arsenal", "0", "0", "0", " 0", "0", "0", "0", "0"],
-["AstonVilla", "0", "0", "0", " 0", "0", "0", "0", "0"],
-["Bournemouth", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Brentford", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Brighton", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Burnley", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Chelsea", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["CrystalPalace", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Everton", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Fulham", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Liverpool", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Luton", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["ManCity", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["ManUnited", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Newcastle", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Nottingham", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Sheffield", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Tottenham", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["WestHam", "0", "0", " 0", "0", "0", "0", "0", "0"],
-["Wolves", "0", "0", " 0", "0", "0", "0", "0", "0"]]
+columns = ["", "Matches Played", "Won", "Draw", "Loss", "Goals Scored", "Goals Against", "Goal Difference", "Points"]
+rows = [["Arsenal", 0, 0, 0, 0, 0, 0, 0, 0],
+["AstonVilla", 0, 0, 0, 0, 0, 0, 0, 0],
+["Bournemouth", 0, 0, 0, 0, 0, 0, 0, 0],
+["Brentford", 0, 0, 0, 0, 0, 0, 0, 0],
+["Brighton", 0, 0, 0, 0, 0, 0, 0, 0],
+["Burnley", 0, 0, 0, 0, 0, 0, 0, 0],
+["Chelsea", 0, 0, 0, 0, 0, 0, 0, 0],
+["CrystalPalace", 0, 0, 0, 0, 0, 0, 0, 0],
+["Everton", 0, 0, 0, 0, 0, 0, 0, 0],
+["Fulham", 0, 0, 0, 0, 0, 0, 0, 0],
+["Liverpool", 0, 0, 0, 0, 0, 0, 0, 0],
+["Luton", 0, 0, 0, 0, 0, 0, 0, 0],
+["ManCity", 0, 0, 0, 0, 0, 0, 0, 0],
+["ManUnited", 0, 0, 0, 0, 0, 0, 0, 0],
+["Newcastle", 0, 0, 0, 0, 0, 0, 0, 0],
+["Nottingham", 0, 0, 0, 0, 0, 0, 0, 0],
+["Sheffield", 0, 0, 0, 0, 0, 0, 0, 0],
+["Tottenham", 0, 0, 0, 0, 0, 0, 0, 0],
+["WestHam", 0, 0, 0, 0, 0, 0, 0, 0],
+["Wolves", 0, 0, 0, 0, 0, 0, 0, 0]]
 
 table.update('A1', [columns, *rows])
+
+t = 5
+
+table.format('A1:I1', {'textFormat': {'bold': True}})
+
+time.sleep(t)
+
+table.format('A2:A21', {'textFormat': {'bold': True}})
 
 Arsenal = table.acell('A2').value
 AstonVilla = table.acell('A3').value
@@ -64,7 +74,7 @@ Tottenham = table.acell("A19").value
 WestHam = table.acell('A20').value
 Wolves = table.acell('A21').value
 
-team_a = (
+home_team = (
 Burnley,
 Newcastle,
 Sheffield,
@@ -447,7 +457,7 @@ ManCity,
 Liverpool
 )
 
-team_b = (ManCity,
+away_team = (ManCity,
 AstonVilla,
 CrystalPalace,
 Fulham,
@@ -830,33 +840,32 @@ Wolves)
 
 def get_match_winner():
 
-    for (a, b) in zip(team_a, team_b):
+    for (a, b) in zip(home_team, away_team):
         print("----------------------------------------")
         print(f"Enter the goals scored for {a} and {b} \n")
         print(f"{a} play at home! \n")
         print(f"{b} play away! \n")
 
-        team_one_score = input(f"Enter {a} goals scored here: \n")
+        home_team_score = input(f"Enter {a} goals scored here: \n")
 
-        team_two_score = input(f"Enter {b} goals scored here: \n")
+        away_team_score = input(f"Enter {b} goals scored here: \n")
 
-        if team_one_score > team_two_score:
+        if home_team_score > away_team_score:
 
-            home_team_winner(a, b, team_one_score, team_two_score)
-            table.sort((2, 'asc'), range='A2:H21')
+            home_team_winner(a, b, home_team_score, away_team_score)
+            sort()
 
-        elif team_one_score == team_two_score:
+        elif home_team_score == away_team_score:
             
-            draw(a, b, team_one_score, team_two_score)  
-            table.sort((2, 'asc'), range='A2:H21')
+            draw(a, b, home_team_score, away_team_score)  
+            sort()
 
         else:
             
-            away_team_winner(a, b, team_one_score, team_two_score)
-            table.sort((2, 'asc'), range='A2:H21')
-        
+            away_team_winner(a, b, home_team_score, away_team_score)
+            sort()
 
-def home_team_winner(a, b, team_one_score, team_two_score):
+def home_team_winner(a, b, home_team_score, away_team_score):
 
     #while True:
         
@@ -866,9 +875,10 @@ def home_team_winner(a, b, team_one_score, team_two_score):
 
         headers = table.row_values(1)
 
-        # find the column "Weight", we will remember this column #
+        # find the column 
 
-        colToUpdate = headers.index('Points')
+        pointsCol = headers.index('Points')
+        matchesCol = headers.index('Matches Played')
         col2ToUpdate = headers.index('Won')
         col4ToUpdate = headers.index('Loss')
         col5ToUpdate = headers.index('Goals Scored')
@@ -879,21 +889,26 @@ def home_team_winner(a, b, team_one_score, team_two_score):
 
         # get the cell to be updated
 
-        cellToUpdate = table.cell(cellLookup.row, colToUpdate+1)
+        cellToUpdate = table.cell(cellLookup.row, pointsCol+1)
+        matchesToUpdate = table.cell(cellLookup.row, matchesCol+1)
         cell2ToUpdate = table.cell(cellLookup.row, col2ToUpdate+1)
         cell5ToUpdate = table.cell(cellLookup.row, col5ToUpdate+1)
         cell6ToUpdate = table.cell(cellLookup.row, col6ToUpdate+1)
         cell7ToUpdate = table.cell(cellLookup.row, col7ToUpdate+1)
 
         # update the cell's value
+
         cellToUpdate.value = int(cellToUpdate.value) + 3
+        matchesToUpdate.value = int(matchesToUpdate.value) + 1
         cell2ToUpdate.value = int(cell2ToUpdate.value) + 1
-        cell5ToUpdate.value = team_one_score
-        cell6ToUpdate.value = team_two_score
-        cell7ToUpdate.value = int(team_one_score) - int(team_two_score)
+        cell5ToUpdate.value = int(cell5ToUpdate.value) + int(home_team_score)
+        cell6ToUpdate.value = int(cell6ToUpdate.value) + int(away_team_score)
+        cell7ToUpdate.value = int(cell7ToUpdate.value) + (int(home_team_score) - int(away_team_score))
 
         # put it in the queue
+
         cell_list.append(cellToUpdate)
+        cell_list.append(matchesToUpdate)
         cell_list.append(cell2ToUpdate)
         cell_list.append(cell5ToUpdate)
         cell_list.append(cell6ToUpdate)
@@ -905,6 +920,7 @@ def home_team_winner(a, b, team_one_score, team_two_score):
 
         # get the cell to be updated
 
+        matchesToUpdate = table.cell(cellLookup.row, matchesCol+1)
         cell4ToUpdate = table.cell(cellLookup.row, col4ToUpdate+1)
         cell5ToUpdate = table.cell(cellLookup.row, col5ToUpdate+1)
         cell6ToUpdate = table.cell(cellLookup.row, col6ToUpdate+1)
@@ -912,23 +928,25 @@ def home_team_winner(a, b, team_one_score, team_two_score):
 
         # update the cell's value
 
+        matchesToUpdate.value = int(matchesToUpdate.value) + 1
         cell4ToUpdate.value = int(cell4ToUpdate.value) + 1
-        cell5ToUpdate.value = team_two_score
-        cell6ToUpdate.value = team_one_score
-        cell7ToUpdate.value = int(team_two_score) - int(team_one_score)
+        cell5ToUpdate.value = int(cell5ToUpdate.value) + int(away_team_score)
+        cell6ToUpdate.value = int(cell6ToUpdate.value) + int(home_team_score)
+        cell7ToUpdate.value = int(cell7ToUpdate.value) + (int(away_team_score) - int(home_team_score))
 
         # put it in the queue
 
         cell_list.append(cell4ToUpdate)
+        cell_list.append(matchesToUpdate)
         cell_list.append(cell5ToUpdate)
         cell_list.append(cell6ToUpdate)
         cell_list.append(cell7ToUpdate)
 
         # now, do it
 
-        table.update_cells(cell_list)
+        update_cells(cell_list)
 
-def draw(a, b, team_one_score, team_two_score):    
+def draw(a, b, home_team_score, away_team_score):    
 
     #while True:
 
@@ -940,7 +958,8 @@ def draw(a, b, team_one_score, team_two_score):
 
         # find the column "Weight", we will remember this column #
 
-        colToUpdate = headers.index('Points')
+        pointsCol = headers.index('Points')
+        matchesCol = headers.index('Matches Played')
         col3ToUpdate = headers.index('Draw')
         col5ToUpdate = headers.index('Goals Scored')
         col6ToUpdate = headers.index('Goals Against')
@@ -949,7 +968,8 @@ def draw(a, b, team_one_score, team_two_score):
 
         # get the cell to be updated
 
-        cellToUpdate = table.cell(cellLookup.row, colToUpdate+1)
+        cellToUpdate = table.cell(cellLookup.row, pointsCol+1)
+        matchesToUpdate = table.cell(cellLookup.row, matchesCol+1)
         cell3ToUpdate = table.cell(cellLookup.row, col3ToUpdate+1)
         cell5ToUpdate = table.cell(cellLookup.row, col5ToUpdate+1)
         cell6ToUpdate = table.cell(cellLookup.row, col6ToUpdate+1)
@@ -957,12 +977,14 @@ def draw(a, b, team_one_score, team_two_score):
         # update the cell's value
 
         cellToUpdate.value = int(cellToUpdate.value) + 1
+        matchesToUpdate.value = int(matchesToUpdate.value) + 1
         cell3ToUpdate.value = int(cell3ToUpdate.value) + 1
-        cell5ToUpdate.value = team_one_score
-        cell6ToUpdate.value = team_two_score
+        cell5ToUpdate.value = int(cell5ToUpdate.value) + int(home_team_score)
+        cell6ToUpdate.value = int(cell6ToUpdate.value) + int(away_team_score)
 
         # put it in the queue
         cell_list.append(cellToUpdate)
+        cell_list.append(matchesToUpdate)
         cell_list.append(cell3ToUpdate)
         cell_list.append(cell5ToUpdate)
         cell_list.append(cell6ToUpdate)
@@ -973,7 +995,8 @@ def draw(a, b, team_one_score, team_two_score):
 
         # get the cell to be updated
 
-        cellToUpdate = table.cell(cellLookup.row, colToUpdate+1)
+        cellToUpdate = table.cell(cellLookup.row, pointsCol+1)
+        matchesToUpdate = table.cell(cellLookup.row, matchesCol+1)
         cell3ToUpdate = table.cell(cellLookup.row, col3ToUpdate+1)
         cell5ToUpdate = table.cell(cellLookup.row, col5ToUpdate+1)
         cell6ToUpdate = table.cell(cellLookup.row, col6ToUpdate+1)
@@ -981,31 +1004,34 @@ def draw(a, b, team_one_score, team_two_score):
         # update the cell's value
 
         cellToUpdate.value = int(cellToUpdate.value) + 1
+        matchesToUpdate.value = int(matchesToUpdate.value) + 1
         cell3ToUpdate.value = int(cell3ToUpdate.value) + 1
-        cell5ToUpdate.value = team_two_score
-        cell6ToUpdate.value = team_one_score
+        cell5ToUpdate.value = int(cell5ToUpdate.value) + int(away_team_score)
+        cell6ToUpdate.value = int(cell6ToUpdate.value) + int(home_team_score)
 
 
         # put it in the queue
 
         cell_list.append(cellToUpdate)
+        cell_list.append(matchesToUpdate)
         cell_list.append(cell3ToUpdate)
         cell_list.append(cell5ToUpdate)
         cell_list.append(cell6ToUpdate)
 
         # now, do it
 
-        table.update_cells(cell_list)
+        update_cells(cell_list)
+
 
         """
 
-        if validate_data(a, b, team_one_score, team_two_score):
+        if validate_data(a, b, home_team_score, away_team_score):
             print("Data is valid!")
             break
             
         """
 
-def away_team_winner(a, b, team_one_score, team_two_score):
+def away_team_winner(a, b, home_team_score, away_team_score):
         
     #while True:
 
@@ -1017,7 +1043,8 @@ def away_team_winner(a, b, team_one_score, team_two_score):
 
         # find the column "Weight", we will remember this column #
 
-        colToUpdate = headers.index('Points')
+        pointsCol = headers.index('Points')
+        matchesCol = headers.index('Matches Played')
         col2ToUpdate = headers.index('Won')
         col4ToUpdate = headers.index('Loss')
         col5ToUpdate = headers.index('Goals Scored')
@@ -1028,6 +1055,7 @@ def away_team_winner(a, b, team_one_score, team_two_score):
 
         # get the cell to be updated
 
+        matchesToUpdate = table.cell(cellLookup.row, matchesCol+1)
         cell4ToUpdate = table.cell(cellLookup.row, col4ToUpdate+1)
         cell5ToUpdate = table.cell(cellLookup.row, col5ToUpdate+1)
         cell6ToUpdate = table.cell(cellLookup.row, col6ToUpdate+1)
@@ -1035,13 +1063,15 @@ def away_team_winner(a, b, team_one_score, team_two_score):
 
         # update the cell's value
 
+        matchesToUpdate.value = int(matchesToUpdate.value) + 1
         cell4ToUpdate.value = int(cell4ToUpdate.value) + 1
-        cell5ToUpdate.value = team_one_score
-        cell6ToUpdate.value = team_two_score
-        cell7ToUpdate.value = int(team_one_score) - int(team_two_score)
+        cell5ToUpdate.value = int(cell5ToUpdate.value) + int(home_team_score)
+        cell6ToUpdate.value = int(cell6ToUpdate.value) + int(away_team_score)
+        cell7ToUpdate.value = int(cell7ToUpdate.value) + (int(home_team_score) - int(away_team_score))
 
         # put it in the queue
 
+        cell_list.append(matchesToUpdate)
         cell_list.append(cell4ToUpdate)
         cell_list.append(cell5ToUpdate)
         cell_list.append(cell6ToUpdate)
@@ -1053,7 +1083,8 @@ def away_team_winner(a, b, team_one_score, team_two_score):
 
         # get the cell to be updated
 
-        cellToUpdate = table.cell(cellLookup.row, colToUpdate+1)
+        cellToUpdate = table.cell(cellLookup.row, pointsCol+1)
+        matchesToUpdate = table.cell(cellLookup.row, matchesCol+1)
         cell2ToUpdate = table.cell(cellLookup.row, col2ToUpdate+1)
         cell5ToUpdate = table.cell(cellLookup.row, col5ToUpdate+1)
         cell6ToUpdate = table.cell(cellLookup.row, col6ToUpdate+1)
@@ -1062,14 +1093,16 @@ def away_team_winner(a, b, team_one_score, team_two_score):
         # update the cell's value
 
         cellToUpdate.value = int(cellToUpdate.value) +3
+        matchesToUpdate.value = int(matchesToUpdate.value) + 1
         cell2ToUpdate.value = int(cell2ToUpdate.value) + 1
-        cell5ToUpdate.value = team_two_score
-        cell6ToUpdate.value = team_one_score
-        cell7ToUpdate.value = int(team_two_score) - int(team_one_score)
+        cell5ToUpdate.value = int(cell5ToUpdate.value) + int(away_team_score)
+        cell6ToUpdate.value = int(cell6ToUpdate.value) + int(home_team_score)
+        cell7ToUpdate.value = int(cell7ToUpdate.value) + (int(away_team_score) - int(home_team_score))
 
         # put it in the queue
 
         cell_list.append(cellToUpdate)
+        cell_list.append(matchesToUpdate)
         cell_list.append(cell2ToUpdate)
         cell_list.append(cell5ToUpdate)
         cell_list.append(cell6ToUpdate)
@@ -1077,19 +1110,58 @@ def away_team_winner(a, b, team_one_score, team_two_score):
 
         # now, do it
 
-        table.update_cells(cell_list)
+        update_cells(cell_list)
+
+def update_cells(cell_list):
+      
+      table.update_cells(cell_list)
+
+def sort():
+    
+    table.sort((9, 'des'), range='A2:I21')
+
+    goal_difference()
+
+def goal_difference():
+    
+    if table.acell('I2').value == table.acell('I3').value == table.acell('I4').value == table.acell('I5').value == table.acell('I6').value == table.acell('I7').value == table.acell('I8').value:
+         
+         table.sort((8, 'des'), range='A2:I8')
+
+    elif table.acell('I2').value == table.acell('I3').value == table.acell('I4').value == table.acell('I5').value == table.acell('I6').value == table.acell('I7').value: 
+     
+        table.sort((8, 'des'), range='A2:I7')
+
+    elif table.acell('I2').value == table.acell('I3').value == table.acell('I4').value == table.acell('I5').value == table.acell('I6').value:
+         
+        table.sort((8, 'des'), range='A2:I6')
+
+    elif table.acell('I2').value == table.acell('I3').value == table.acell('I4').value == table.acell('I5').value:
+         
+         table.sort((8, 'des'), range='A2:I5')
+
+    elif table.acell('I2').value == table.acell('I3').value == table.acell('I4').value:
+         
+         table.sort((8, 'des'), range='A2:I4')
+
+    elif table.acell('I2').value == table.acell('I3').value:
+         
+         table.sort((8, 'des'), range='A2:I3')
+
+    else:
+         pass
 
 """
-    
-        if validate_data(a, b, team_one_score, team_two_score):
+
+def validate_data(home_team_score, away_team_score):
+
+    if validate_data(a, b, home_team_score, away_team_score):
             print("Data is valid!")
             break
 
-def validate_data(team_one_score, team_two_score):
-
     try:
-        [int(team_one_score)] 
-        [int(team_two_score)]
+        [int(home_team_score)] 
+        [int(away_team_score)]
         raise ValueError(
             f"Please enter a single numerical digit \n"
         )
