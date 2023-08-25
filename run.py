@@ -5,6 +5,8 @@ import numpy as np
 
 import time
 
+from collections import Counter
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -1123,7 +1125,29 @@ def sort():
     goal_difference()
 
 def goal_difference():
-    
+
+    gd = [item for item in table.col_values(9) if item]
+
+    cell = table.acell('I2').value
+
+    top = gd.count(cell)
+
+    print(gd)
+    print(cell)
+    print(top)
+
+    if top > 1:
+
+        range_string = 'A2:I' + str(top)
+
+        new_top = (top + 1)
+
+        print(range_string)
+         
+        table.sort((8, 'des'), range=range_string)
+
+"""
+
     if table.acell('I2').value == table.acell('I3').value == table.acell('I4').value == table.acell('I5').value == table.acell('I6').value == table.acell('I7').value == table.acell('I8').value:
          
          table.sort((8, 'des'), range='A2:I8')
@@ -1149,7 +1173,11 @@ def goal_difference():
          table.sort((8, 'des'), range='A2:I3')
 
     else:
-         pass
+         
+        pass
+        
+"""
+    
 
 """
 
