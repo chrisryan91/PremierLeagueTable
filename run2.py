@@ -55,24 +55,28 @@ def all_matches():
                 print("Would you like to view the table after matchday one? \n")
 
                 print("Enter 'yes' to view the tables or 'no' to continue to matchday two!")
+                    
+                after_matchday = ''
 
                 while True:
-                    
-                    option = input("Please enter yes or no: - ")
 
-                    try:
-                        option != "Yes" or option == "no":
-                    
-                    except: 
-                        pass
+                    after_matchday = input('Do you want to continue? yes/no: ')
 
-                    if option == "yes" or "no":
-                        
-                        print("Thanks \n")
+                    if after_matchday.lower() == 'yes':
+
+                        print('User typed yes')
+
+                        table()
+
+                    elif after_matchday.lower() == 'no':
+
+                        print('User typed no')
 
                         break
-                    
-                    print("Invalid Answer! Try again :)")
+
+                    else:
+                        print('Type yes/no')
+
 
             print(f"{match[1]} \n")
 
@@ -80,9 +84,21 @@ def all_matches():
 
             print("Please enter one positive interger or zero for both teams in the match! \n")
 
-            home_result = input(f"Enter goals scored by {match[3]} \n")
+            while True:
 
-            away_result = input(f"Enter goals score by {match[4]} \n")
+                home_result = input(f"Enter goals scored by {match[3]} \n")
+
+                away_result = input(f"Enter goals score by {match[4]} \n")
+
+                try:
+                    int(home_result)   
+                    int(away_result)    
+                except ValueError:
+                    print("Not an integer!")
+                    continue
+                else:
+                    print("Yes an integer!")
+                    break 
 
             update_fixtures(match, home_result, away_result)
 
