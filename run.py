@@ -1132,19 +1132,31 @@ def goal_difference():
 
     top = gd.count(cell)
 
-    print(gd)
-    print(cell)
-    print(top)
-
     if top > 1:
 
-        range_string = 'A2:I' + str(top)
+        new_top = (top + 2)
 
-        new_top = (top + 1)
+        range_string = 'A2:I' + str(new_top)
 
         print(range_string)
          
         table.sort((8, 'des'), range=range_string)
+    
+        next()
+
+def next():
+     
+    gd = [item for item in table.col_values(9) if item]
+
+    cell = int(table.acell('I2').value)
+
+    for num in gd[:]:
+         
+         if num == cell:
+              
+              gd.remove(num)
+
+              print(gd)
 
 """
 
@@ -1177,15 +1189,12 @@ def goal_difference():
         pass
         
 """
-    
 
-"""
 
 def validate_data(home_team_score, away_team_score):
 
-    if validate_data(a, b, home_team_score, away_team_score):
+    if validate_data(home_team_score, away_team_score):
             print("Data is valid!")
-            break
 
     try:
         [int(home_team_score)] 
@@ -1200,6 +1209,5 @@ def validate_data(home_team_score, away_team_score):
 
     return True
 
-"""
 
 get_match_winner()
