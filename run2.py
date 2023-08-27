@@ -1,13 +1,11 @@
 import gspread 
 from google.oauth2.service_account import Credentials
 
-import numpy as np
+"""
+Tabulate is imported and installed as it helps display our league table nicely on the terminal.
+"""
+
 from tabulate import tabulate
-import pandas as pd
-
-import time
-
-t = 3
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -21,17 +19,31 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 
 SHEET = GSPREAD_CLIENT.open('league_table')
 
+"""
+We have two spreadsheet to get from the worksheet.
+Data will be pulled from one sheet and data will then update the sheets.
+From the standings spreadsheet we will update the terminal. 
+"""
+
 fixtures = SHEET.worksheet('fixtures')
 standings = SHEET.worksheet('standings')
 
-
+"""
+Define menu function which will run first and users can return to. 
+It presents three options which the user can choose from with properly submitted inputs.
+If the string is non equal to either of the three options it returns the menu function.
+"""
 def menu():
-
-        print("Welcome to Premier League Soccer Table \n")
+        print("Welcome to the English Premier League Table! \n")
         print("Type 'league table' to see the table: - \n")
         print("Type 'enter results' to enter matchday results: - \n")
         print("Type 'clear table to clear the table and enter results from Matchday 1: - \n")
         choice = input(f"Enter choice: - \n")
+
+        """
+        An if, elif, else statement is used to determine the users choice.
+        If the users choice is equal to a value it returns a specific function - table, all_matches and clear_results.
+        """
 
         if choice == str("league table"):
             table()
@@ -46,37 +58,60 @@ def menu():
             print("Invalid results - try again! \n")
             menu()
 
+"""
+The all_matches function loops through each row in the spreadsheet which is then used to determine the fixture.
+Each row on the fixture spread sheet has columns for: Match Number, Matchday, Matchdate, Home team, Away team, Home goals and Away goals.
+Within the loop firstly asks the user if they would like to view the league as it stands - this will recur when the matchday value changes.
+Secondly, the function will ask the user to input the goals for each team - one team being the home team, the other the away team.
+With the values given, we update each row in turn.
+"""
+
 def all_matches():
 
     for match in fixtures.get_all_values():
+        """
+        At the tenth game, the matchday will change. 
+        The modulo operator checks if the remainder if the matchday is divided by ten. 
+        If the remainder is zero, a new matchday prompts to view the updated table.
+        """
+        if int(match[0]) % 10 == 0:
+            
+            print(f"Would you like to view the table after {match[1]} ? \n")
 
-            if int(match[0]) % 10 == 1:
-                
-                print("Would you like to view the table after matchday one? \n")
+            print("Enter 'yes' to view the tables or 'no' to continue!")
+            
+            """
+            After decaring a new list, we run a while loop which contains an if, elif, else statement to determine if the users choice.
+            """
 
-                print("Enter 'yes' to view the tables or 'no' to continue to matchday two!")
-                    
-                after_matchday = ''
+            after_matchday = ''
 
-                while True:
+            while True:
 
-                    after_matchday = input('Do you want to continue? yes/no: ')
+                after_matchday = input('Do you want to continue? yes/no: ')
 
-                    if after_matchday.lower() == 'yes':
+                if after_matchday.lower() == 'yes':
 
-                        print('User typed yes')
+                    print('User typed yes')
 
-                        table()
+                    table()
 
-                    elif after_matchday.lower() == 'no':
+                elif after_matchday.lower() == 'no':
 
-                        print('User typed no')
+                    print('User typed no')
 
-                        break
+                    break
 
-                    else:
-                        print('Type yes/no')
+                else:
+                    print('Type yes/no')
 
+        """
+        Within a while loop, we ask for the users input and validate the data. 
+        We ask for two inputs - the home team score and the away team score.
+        The data is validated with try, except, else which checks if the input is an interger.
+        """
+
+        while True:
 
             print(f"{match[1]} \n")
 
@@ -84,59 +119,104 @@ def all_matches():
 
             print("Please enter one positive interger or zero for both teams in the match! \n")
 
-            while True:
+            home_result = input(f"Enter goals scored by {match[3]} \n")
 
-                home_result = input(f"Enter goals scored by {match[3]} \n")
+            away_result = input(f"Enter goals score by {match[4]} \n")
 
-                away_result = input(f"Enter goals score by {match[4]} \n")
+            try:
+                int(home_result)   
 
-                try:
-                    int(home_result)   
-                    int(away_result)    
-                except ValueError:
-                    print("Not an integer!")
-                    continue
-                else:
-                    print("Yes an integer!")
-                    break 
+                int(away_result)    
 
-            update_fixtures(match, home_result, away_result)
+            except ValueError:
 
-            update_standings(match, home_result, away_result)
-    
+                print("Not an integer!")
 
-def update_fixtures(match, home_result, away_result):
+                continue
+
+            else:
+
+                print("Yes an integer!")
+
+                break 
         
-        print(str(home_result) + " : " + str(away_result) + "\n")
+        """
+        Two functions are called with valid input data which will update our spreadsheets.
+        The two functions to update two seperate spreadsheets - one with match data, one with our table. 
+        
+        """
 
-        row = int(match[0])
+        update_fixtures(match, home_result, away_result)
+        update_standings(match, home_result, away_result)
 
-        fixtures.update_cell(int(row), 6, int(home_result))
+"""
+From the menu, we can choose to clear the results. This will remove all values added from the tables so the process can be reset
+The clear_results function will remove four columns rom the fixtures sheet and two from the standings sheet. 
+It then updates standings sheet with values removed that need to be in-place when the update_standings function is updated.
+"""
 
-        fixtures.update_cell(int(row), 7, int(away_result))
-
-        home_gd = int(home_result) - int(away_result)
-
-        away_gd = int(away_result) - int(home_result)
-
-        fixtures.update_cell(int(row), 8, int(home_gd))
-
-        fixtures.update_cell(int(row), 9, int(away_gd))
-
-                
 def clear_results():
 
-    pass
+    fixtures.delete_columns(6, 7)
+    fixtures.delete_columns(7, 8)
+    standings.delete_columns(2, 3)
+
+    update_list = standings.range('B1:C1')
+    cell_values = ["Goal Difference", "Points"]
+
+    for i, val in enumerate(cell_values):  #gives us a tuple of an index and value
+
+        update_list[i].value = val    #use the index on cell_list and the val from cell_values
+
+    standings.update_cells(update_list)
+
+    menu()  
+
+"""
+The update_fixtures function updates each row successively with four values.
+"""
+
+def update_fixtures(match, home_result, away_result):
+    
+    print(str(home_result) + " : " + str(away_result) + "\n")
+
+    """
+    By converting the row value to an interger, we can use the update_cell function to update each cell in-turn with home goals and away goals.
+    By substituting one value from another, the goal difference can be determined. 
+    """
+
+    row = int(match[0])
+    fixtures.update_cell(int(row), 6, int(home_result))
+    fixtures.update_cell(int(row), 7, int(away_result))
+
+    """
+    The goal difference will contribute to determining league position
+    """
+
+    home_gd = int(home_result) - int(away_result)
+    away_gd = int(away_result) - int(home_result)
+    fixtures.update_cell(int(row), 8, int(home_gd))
+    fixtures.update_cell(int(row), 9, int(away_gd))
+
+"""
+The update_standings function will update the standings spreadsheet. 
+Each row has a team in column A with two empty cells in B and C to contain Goal Difference and Points. 
+The sort function is called when the sheet has updated.
+"""
 
 def update_standings(match, home_result, away_result):
+
+    """
+    The standings sheet is searched to return the position of the two teams.
+    The match list we looped through in the all_matches function was pulled from the fixture spreadsheet.
+
+
+    """
 
     cell_home = standings.find(str(match[3]))
     cell_away = standings.find(str(match[4]))
     home_gd = int(home_result) - int(away_result)
     away_gd = int(away_result) - int(home_result)
-
-
-    standings.update_cell((cell_home.row), 3, +3)
 
     if home_result > away_result:
         standings.update_cell((cell_home.row), 3, +3)
@@ -153,6 +233,30 @@ def update_standings(match, home_result, away_result):
         standings.update_cell((cell_away.row), 2, away_gd)
 
     sort()
+
+"""
+
+"""
+
+def sort():
+    
+    standings.sort((3, 'des'), range='B2:C21')
+    gd_sort = [item for item in standings.col_values(3) if item]
+
+    top_cell = standings.acell('C2').value
+    top = gd_sort.count(top_cell)
+
+    if top > 1:
+         
+        new_top = (top + 1)
+        range_string = 'A2:C' + str(new_top)
+        print(range_string)
+        standings.sort((2, 'des'), range=range_string)
+
+
+"""
+
+"""
 
 def table():
     
@@ -191,26 +295,7 @@ def table():
     elif option == "back":
         menu()
 
-def sort():
-    
-    standings.sort((3, 'des'), range='B2:C21')
-
-    gd_sort = [item for item in standings.col_values(3) if item]
-
-    top_cell = standings.acell('C2').value
-
-    top = gd_sort.count(top_cell)
-
-    if top > 1:
-         
-        new_top = (top + 1)
-
-        range_string = 'A2:C' + str(new_top)
-
-        print(range_string)
-
-        standings.sort((2, 'des'), range=range_string)
-         
+ 
 menu()
 
 
