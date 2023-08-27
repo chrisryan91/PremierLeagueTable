@@ -42,7 +42,7 @@ def table(standings):
 
         if option == "a":   
             
-            top_four = [standings.row_values(i) for i in range(1, 5)]
+            top_four = [standings.row_values(i) for i in range(1, 6)]
 
             print(tabulate(top_four, headers='firstrow', tablefmt='fancy_grid'))
     
@@ -67,6 +67,32 @@ def table(standings):
             print("Invalid choice - please enter 'a', 'b', 'c', or 'back'.")
 
 """
+"""
+
+def validate_interger_input(prompt):
+    while True:
+        try:
+            value = int(input(prompt))
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+
+def save_progress(index):
+    with open("progress.txt", "w") as f:
+        f.write(str(index))
+
+def load_progress():
+    try:
+        with open("progress.txt", "r") as f:
+            content = f.read()
+            if content.strip():
+                return int(content)
+            else:
+                return 0
+    except FileNotFoundError:
+        return 0
+
+"""
 The all_matches function loops through each row in the spreadsheet which is then used to determine the fixture.
 Each row on the fixture spread sheet has columns for: Match Number, Matchday, Matchdate, Home team, Away team, Home goals and Away goals.
 Within the loop firstly asks the user if they would like to view the league as it stands - this will recur when the matchday value changes.
@@ -75,87 +101,61 @@ With the values given, we update each row in turn.
 """
 
 def all_matches():
+    start_index = load_progress()
+    for row_number, match in enumerate(fixtures.get_all_values(), start=1):
+        if row_number <= start_index:
+            continue
+        
+        matchday_number = int(match[1])
 
-    for match in fixtures.get_all_values():
         """
         At the tenth game, the matchday will change. 
         The modulo operator checks if the remainder if the matchday is divided by ten. 
         If the remainder is zero, a new matchday prompts to view the updated table.
         """
-        if int(match[0]) % 10 == 0:
+        if row_number % 11 == 0:
             
-            print(f"Would you like to view the table after {match[1]} ? \n")
-
-            print("Enter 'yes' to view the tables or 'no' to continue!")
-            
-            """
-            After decaring a new list, we run a while loop which contains an if, elif, else statement to determine if the users choice.
-            """
-
-            after_matchday = ''
+            print(f"Starting {matchday_number}? \n")
 
             while True:
 
-                after_matchday = input('Do you want to continue? yes/no: ')
-
-                if after_matchday.lower() == 'yes':
-
-                    print('User typed yes')
-
-                    table()
-
-                elif after_matchday.lower() == 'no':
-
-                    print('User typed no')
-
+                view_table = input("Would you like to view the table?").lower()
+                if view_table in ['yes', 'no']:
                     break
-
                 else:
-                    print('Type yes/no')
+                    print("Invalid input. Please enter 'yes' or'no'.")
+            
+            if view_table == 'yes':
+                table(standings)
 
-        """
-        Within a while loop, we ask for the users input and validate the data. 
-        We ask for two inputs - the home team score and the away team score.
-        The data is validated with try, except, else which checks if the input is an interger.
-        """
+
+        print(f"{match[1]} \n")
+        print(f"{match[3]} vs. {match[4]} - {match[3]} play at home! \n")
+        print("Please enter one positive interger or zero for both teams in the match! \n")
+
+        home_result = validate_interger_input(f"Enter goals scored by {match[3]} \n")
+        away_result = validate_interger_input(f"Enter goals score by {match[4]} \n")
+
+        update_fixtures(match, home_result, away_result)
+        update_standings(match, home_result, away_result)
+
 
         while True:
-
-            print(f"{match[1]} \n")
-
-            print(f"{match[3]} vs. {match[4]} - {match[3]} play at home! \n")
-
-            print("Please enter one positive interger or zero for both teams in the match! \n")
-
-            home_result = input(f"Enter goals scored by {match[3]} \n")
-
-            away_result = input(f"Enter goals score by {match[4]} \n")
-
-            try:
-                int(home_result)   
-
-                int(away_result)    
-
-            except ValueError:
-
-                print("Not an integer!")
-
-                continue
-
+            after_matchday = input("Do you want to continue? (yes/no): ").lower()
+            if after_matchday in ['yes', 'no']:
+                break
             else:
+                print("Invalid input. Please enter 'yes' or 'no'.")
 
-                print("Yes an integer!")
+        if after_matchday == 'no':
+            save_progress(row_number)
+            break
 
-                break 
-        
         """
         Two functions are called with valid input data which will update our spreadsheets.
         The two functions to update two seperate spreadsheets - one with match data, one with our table. 
         
         """
-
-        update_fixtures(match, home_result, away_result)
-        update_standings(match, home_result, away_result)
 
 """
 From the menu, we can choose to clear the results. This will remove all values added from the tables so the process can be reset
@@ -167,12 +167,15 @@ def clear_results(fixtures, standings):
 
     try:
 
+        with open("progress.txt", "w") as f:
+            f.write("")
+
         fixtures.delete_columns(6, 7)
         fixtures.delete_columns(7, 8)
         standings.delete_columns(2, 3)
 
-        update_list = standings.range('B1:C1')
-        cell_values = ["Goal Difference", "Points"]
+        update_list = standings.range('A1:C1')
+        cell_values = ["Team", "Goal Difference", "Points"]
 
         for i, val in enumerate(cell_values):  #gives us a tuple of an index and value
 
@@ -195,7 +198,7 @@ def menu():
             print("Welcome to the English Premier League Table! \n")
             print("Type 'league table' to see the table: - \n")
             print("Type 'enter results' to enter matchday results: - \n")
-            print("Type 'clear table to clear the results from the table and begin again: - \n")
+            print("Type 'clear results' to begin again: - \n")
             choice = input(f"Enter choice: - \n")
 
             """
