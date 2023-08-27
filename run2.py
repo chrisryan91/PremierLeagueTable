@@ -32,42 +32,39 @@ standings = SHEET.worksheet('standings')
 
 """
 
-def table():
+def table(standings):
     
-    print("Do you want to view the entire table, top four or bottom three? \n")
-    print("Enter a, b or c for top four, bottom three or the entire table respectively! \n")
-    option = input("Enter single digit a, b, c or the word 'back' \n")
+    while True:
 
-    if option == "a":   
+        print("Do you want to view the entire table, top four or bottom three? \n")
+        print("Enter a, b or c for top four, bottom three or the entire table respectively! \n")
+        option = input("Enter single digit a, b, c or the word 'back' \n").strip().lower()
 
-        first = standings.row_values(1)
-        second = standings.row_values(2)
-        third = standings.row_values(3)
-        fourth = standings.row_values(3)
+        if option == "a":   
+            
+            top_four = [standings.row_values(i) for i in range(1, 5)]
 
-        top_four = [first, second, third, fourth]
+            print(tabulate(top_four, headers='firstrow', tablefmt='fancy_grid'))
+    
 
-        print(tabulate(top_four, headers='firstrow', tablefmt='fancy_grid'))
- 
+        elif option == "b":
 
-    elif option == "b":
+            bottom_three = [standings.row_values(i) for i in range(18, 21)]
 
-        eighteen = standings.row_values(18)
-        nineteen = standings.row_values(19)
-        twenty = standings.row_values(20)
+            print(tabulate(bottom_three, headers='firstrow', tablefmt='fancy_grid'))
 
-        bottom_three = [eighteen, nineteen, twenty]
+        elif option == "c":
 
-        print(tabulate(bottom_three, headers='firstrow', tablefmt='fancy_grid'))
+            table = standings.get_all_values()
 
-    elif option == "c":
+            print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
 
-        table = standings.get_all_values()
+        elif option == "back":
 
-        print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
-
-    elif option == "back":
-        menu()
+            return
+        
+        else:
+            print("Invalid choice - please enter 'a', 'b', 'c', or 'back'.")
 
 """
 The all_matches function loops through each row in the spreadsheet which is then used to determine the fixture.
@@ -166,7 +163,7 @@ The clear_results function will remove four columns rom the fixtures sheet and t
 It then updates standings sheet with values removed that need to be in-place when the update_standings function is updated.
 """
 
-def clear_results():
+def clear_results(fixtures, standings):
 
     try:
 
@@ -207,7 +204,7 @@ def menu():
             """
 
             if choice.strip().lower() == str("league table"):
-                table()
+                table(standings)
 
             elif choice.strip().lower() == str("enter results"):
                 all_matches()
@@ -215,7 +212,7 @@ def menu():
             elif choice.strip().lower() == str("clear results"):
                 confirmation = input("Are you sure you want to clear the table? (yes/no): ").strip().lower()
                 if confirmation == "yes":
-                    clear_results()
+                    clear_results(fixtures, standings)
             
             elif choice.strip().lower() == "exit":
                 print("Exiting the program. Goodbye!")
