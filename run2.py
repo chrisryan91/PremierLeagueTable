@@ -168,19 +168,24 @@ It then updates standings sheet with values removed that need to be in-place whe
 
 def clear_results():
 
-    fixtures.delete_columns(6, 7)
-    fixtures.delete_columns(7, 8)
-    standings.delete_columns(2, 3)
+    try:
 
-    update_list = standings.range('B1:C1')
-    cell_values = ["Goal Difference", "Points"]
+        fixtures.delete_columns(6, 7)
+        fixtures.delete_columns(7, 8)
+        standings.delete_columns(2, 3)
 
-    for i, val in enumerate(cell_values):  #gives us a tuple of an index and value
+        update_list = standings.range('B1:C1')
+        cell_values = ["Goal Difference", "Points"]
 
-        update_list[i].value = val    #use the index on cell_list and the val from cell_values
+        for i, val in enumerate(cell_values):  #gives us a tuple of an index and value
 
-    standings.update_cells(update_list)
+            update_list[i].value = val    #use the index on cell_list and the val from cell_values
 
+        standings.update_cells(update_list)
+
+    except Exception as e:
+        print("An error occured:", str(e))
+    
     menu()  
 
 """
