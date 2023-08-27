@@ -29,34 +29,45 @@ fixtures = SHEET.worksheet('fixtures')
 standings = SHEET.worksheet('standings')
 
 """
-Define menu function which will run first and users can return to. 
-It presents three options which the user can choose from with properly submitted inputs.
-If the string is non equal to either of the three options it returns the menu function.
+
 """
-def menu():
-        print("Welcome to the English Premier League Table! \n")
-        print("Type 'league table' to see the table: - \n")
-        print("Type 'enter results' to enter matchday results: - \n")
-        print("Type 'clear table to clear the table and enter results from Matchday 1: - \n")
-        choice = input(f"Enter choice: - \n")
 
-        """
-        An if, elif, else statement is used to determine the users choice.
-        If the users choice is equal to a value it returns a specific function - table, all_matches and clear_results.
-        """
+def table():
+    
+    print("Do you want to view the entire table, top four or bottom three? \n")
+    print("Enter a, b or c for top four, bottom three or the entire table respectively! \n")
+    option = input("Enter single digit a, b, c or the word 'back' \n")
 
-        if choice == str("league table"):
-            table()
+    if option == "a":   
 
-        elif choice == str("enter results"):
-            all_matches()
+        first = standings.row_values(1)
+        second = standings.row_values(2)
+        third = standings.row_values(3)
+        fourth = standings.row_values(3)
 
-        elif choice == str("clear results"):
-            clear_results()
+        top_four = [first, second, third, fourth]
 
-        else: 
-            print("Invalid results - try again! \n")
-            menu()
+        print(tabulate(top_four, headers='firstrow', tablefmt='fancy_grid'))
+ 
+
+    elif option == "b":
+
+        eighteen = standings.row_values(18)
+        nineteen = standings.row_values(19)
+        twenty = standings.row_values(20)
+
+        bottom_three = [eighteen, nineteen, twenty]
+
+        print(tabulate(bottom_three, headers='firstrow', tablefmt='fancy_grid'))
+
+    elif option == "c":
+
+        table = standings.get_all_values()
+
+        print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
+
+    elif option == "back":
+        menu()
 
 """
 The all_matches function loops through each row in the spreadsheet which is then used to determine the fixture.
@@ -173,6 +184,41 @@ def clear_results():
     menu()  
 
 """
+Define menu function which will run first and users can return to. 
+It presents three options which the user can choose from with properly submitted inputs.
+If the string is non equal to either of the three options it returns the menu function.
+"""
+def menu():
+        while True:
+            print("Welcome to the English Premier League Table! \n")
+            print("Type 'league table' to see the table: - \n")
+            print("Type 'enter results' to enter matchday results: - \n")
+            print("Type 'clear table to clear the results from the table and begin again: - \n")
+            choice = input(f"Enter choice: - \n")
+
+            """
+            An if, elif, else statement is used to determine the users choice.
+            If the users choice is equal to a value it returns a specific function - table, all_matches and clear_results.
+            """
+
+            if choice.strip().lower() == str("league table"):
+                table()
+
+            elif choice.strip().lower() == str("enter results"):
+                all_matches()
+
+            elif choice.strip().lower() == str("clear results"):
+                confirmation = input("Are you sure you want to clear the table? (yes/no): ").strip().lower()
+                if confirmation == "yes":
+                    clear_results()
+            
+            elif choice.strip().lower() == "exit":
+                print("Exiting the program. Goodbye!")
+                break
+            else: 
+                print("Invalid results - try again! \n")
+
+"""
 The update_fixtures function updates each row successively with four values.
 """
 
@@ -209,8 +255,6 @@ def update_standings(match, home_result, away_result):
     """
     The standings sheet is searched to return the position of the two teams.
     The match list we looped through in the all_matches function was pulled from the fixture spreadsheet.
-
-
     """
 
     cell_home = standings.find(str(match[3]))
@@ -218,12 +262,17 @@ def update_standings(match, home_result, away_result):
     home_gd = int(home_result) - int(away_result)
     away_gd = int(away_result) - int(home_result)
 
+    """
+    Using if, elif and else the winner is determine by checking the goals scored for each team for each fixture.
+    Once updated, the sort function is returned.
+    """
+
     if home_result > away_result:
         standings.update_cell((cell_home.row), 3, +3)
         standings.update_cell((cell_home.row), 2, home_gd)
         standings.update_cell((cell_away.row), 2, away_gd)
 
-    if home_result == away_result:
+    elif home_result == away_result:
         standings.update_cell((cell_home.row), 3, +1)
         standings.update_cell((cell_away.row), 3, +1)
 
@@ -253,49 +302,6 @@ def sort():
         print(range_string)
         standings.sort((2, 'des'), range=range_string)
 
-
-"""
-
-"""
-
-def table():
-    
-    print("Do you want to view the entire table, top four or bottom three? \n")
-    print("Enter a, b or c for top four, bottom three or the entire table respectively! \n")
-    option = input("Enter single digit a, b, c or the word 'back' \n")
-
-    if option == "a":   
-
-        first = standings.row_values(1)
-        second = standings.row_values(2)
-        third = standings.row_values(3)
-        fourth = standings.row_values(3)
-
-        top_four = [first, second, third, fourth]
-
-        print(tabulate(top_four, headers='firstrow', tablefmt='fancy_grid'))
- 
-
-    elif option == "b":
-
-        eighteen = standings.row_values(18)
-        nineteen = standings.row_values(19)
-        twenty = standings.row_values(20)
-
-        bottom_three = [eighteen, nineteen, twenty]
-
-        print(tabulate(bottom_three, headers='firstrow', tablefmt='fancy_grid'))
-
-    elif option == "c":
-
-        table = standings.get_all_values()
-
-        print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
-
-    elif option == "back":
-        menu()
-
- 
 menu()
 
 
