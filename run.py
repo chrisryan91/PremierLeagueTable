@@ -125,9 +125,16 @@ def clear_results(fixtures, standings):
     try:
         with open("progress.txt", "w") as f:
             f.write("")
-        fixtures.delete_columns(6, 7)
-        fixtures.delete_columns(7, 8)
-        standings.delete_columns(2, 3)
+        # Clear values in columns 6, 7, and 8 of the fixtures worksheet
+        range_to_clear = fixtures.range('F1:I' + str(fixtures.row_count))
+        for cell in range_to_clear:
+            cell.value = ''
+        fixtures.update_cells(range_to_clear)
+        # Clear values in columns 2 and 3 of the standings worksheet
+        range_to_clear = standings.range('B2:C' + str(standings.row_count))
+        for cell in range_to_clear:
+            cell.value = 0
+        standings.update_cells(range_to_clear)
         update_list = standings.range('A1:C1')
         cell_values = ["Team", "Goal Difference", "Points"]
         # Gives us a tuple of an index and value
@@ -143,7 +150,9 @@ def clear_results(fixtures, standings):
 # The function to run the main menu
 def menu():
     while True:
-        print("Welcome to the English Premier League Table! \n")
+        print("-----------------------------------------------")
+        print("Welcome to the English Premier League Table!")
+        print("-----------------------------------------------\n")
         print("Type 'league table' to see the table: - \n")
         print("Type 'enter results' to enter matchday results: - \n")
         print("Type 'clear results' to begin again: - \n")
@@ -153,15 +162,16 @@ def menu():
         elif choice.strip().lower() == str("enter results"):
             all_matches()
         elif choice.strip().lower() == str("clear results"):
-            confirmation = input("Are you sure? Type 'yes' or 'no': ")
-            if confirmation.strip().lower() == "yes":
-                clear_results(fixtures, standings)
-                break
-            elif confirmation.strip().lower() == "no":
-                print("Cancelled!")
-                break
-            else:
-                print("Invalid data! Try again.")
+            while True:
+                confirmation = input("Are you sure? Type 'yes' or 'no': ")
+                if confirmation.strip().lower() == "yes":
+                    clear_results(fixtures, standings)
+                    break
+                elif confirmation.strip().lower() == "no":
+                    print("Cancelled!")
+                    break
+                else:
+                    print("Invalid data! Try again.")
         elif choice.strip().lower() == "exit":
             print("Exiting the program. Goodbye!")
             break
