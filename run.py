@@ -198,29 +198,35 @@ def update_standings(match, home_result, away_result):
 
     cell_home = standings.find(str(match[3]))
     cell_away = standings.find(str(match[4]))
+    print(match[3])
+    print(match[4])
     home_gd = int(home_result) - int(away_result)
     away_gd = int(away_result) - int(home_result)
+    home_before = standings.cell((cell_home.row), 3).value
+    away_before = standings.cell((cell_away.row), 3).value
+    home_gd_before = standings.cell((cell_home.row), 2).value
+    away_gd_before = standings.cell((cell_home.row), 2).value
     # Updates if the Home Team wins
     if home_result > away_result:
-        standings.update_cell((cell_home.row), 3, +3)
-        standings.update_cell((cell_home.row), 2, home_gd)
-        standings.update_cell((cell_away.row), 2, away_gd)
+        standings.update_cell((cell_home.row), 3, (int(home_before) +3))
+        standings.update_cell((cell_home.row), 2, int(home_gd_before) + home_gd)
+        standings.update_cell((cell_away.row), 2, int(away_gd_before) + away_gd)
     # Updates if the result is a draw
     elif home_result == away_result:
-        standings.update_cell((cell_home.row), 3, +1)
-        standings.update_cell((cell_away.row), 3, +1)
+        standings.update_cell((cell_home.row), 3, (int(home_before) + 1))
+        standings.update_cell((cell_away.row), 3, (int(away_before) + 1))
     # Updates if the Away Team wins
     else:
-        standings.update_cell((cell_away.row), 3, +3)
-        standings.update_cell((cell_home.row), 2, home_gd)
-        standings.update_cell((cell_away.row), 2, away_gd)
+        standings.update_cell((cell_away.row), 3, (int(away_before) + 3))
+        standings.update_cell((cell_home.row), 2, int(home_gd_before) +  home_gd)
+        standings.update_cell((cell_away.row), 2, int(away_gd_before) + away_gd)
     sort()
 
 
 # Function to sort the standings
 def sort():
     # The standings are sorted by points
-    standings.sort((3, 'des'), range='B2:C21')
+    standings.sort((3, 'des'), range='A2:C21')
     gd_sort = [item for item in standings.col_values(3) if item]
     top_cell = standings.acell('C2').value
     top = gd_sort.count(top_cell)
