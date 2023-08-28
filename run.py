@@ -35,17 +35,17 @@ def table(standings):
         option = input("Enter 'a', 'b', 'c' for each or 'back' to go back! \n")
         if option.strip().lower() == "a":
             # Get the data for the top four teams
-            top_four = [standings.row_values(i) for i in range(1, 6)]
-            print(tabulate(top_four, headers='firstrow', tablefmt='fancy_grid'))
+            top_4 = [standings.row_values(i) for i in range(1, 6)]
+            print(tabulate(top_4, headers='firstrow', tablefmt='fancy_grid'))
         elif option.strip().lower() == "b":
             # Get the data from the bottom teams
-            bottom_three = [standings.row_values(i) for i in range(18, 21)]
-            print(tabulate(bottom_three, headers='firstrow', tablefmt='fancy_grid'))
+            bottom = [standings.row_values(i) for i in range(18, 21)]
+            print(tabulate(bottom, headers='firstrow', tablefmt='fancy_grid'))
         elif option.strip().lower() == "c":
             # Get the entire table
             table = standings.get_all_values()
             print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
-        elif option..strip().lower() == "back":
+        elif option.strip().lower() == "back":
             return
         else:
             print("Invalid choice - please enter 'a', 'b', 'c', or 'back'.")
@@ -153,9 +153,15 @@ def menu():
         elif choice.strip().lower() == str("enter results"):
             all_matches()
         elif choice.strip().lower() == str("clear results"):
-            confirmation = input("Are you sure you want to clear the table? (yes/no): ").strip().lower()
-            if confirmation == "yes":
+            confirmation = input("Are you sure? Type 'yes' or 'no': ")
+            if confirmation.strip().lower() == "yes":
                 clear_results(fixtures, standings)
+                break
+            elif confirmation.strip().lower() == "no":
+                print("Cancelled!")
+                break
+            else:
+                print("Invalid data! Try again.")
         elif choice.strip().lower() == "exit":
             print("Exiting the program. Goodbye!")
             break
