@@ -10,19 +10,17 @@ The program utilizes the 2023/2024 English Premier League season. However, the p
 ![image of the program running on Heroku on different devices](image.jpg)
 
 ## How to use
-When the program runs, you user is given four menu options - view table, enter results, clear the results and table, and exit the program. 
 
-![image of the menu](documents/readme%20images/menu.png)
-
-Viewing the table will ask the user if they want to see the top four teams, the bottom three teams or the entire table. At the start, the table will have no resulting values. By the end of the season with all results in, the table will have the result of all the games. 
+![image of the fixtures spreadsheet](documents/readme%20images/fixturestable.png)
+When the program runs, you user is given four menu options - view table, enter results, clear the results and table, and exit the program. Viewing the table will ask the user if they want to see the top four teams, the bottom three teams or the entire table. At the start, the table will have no resulting values. By the end of the season with all results in, the table will have the result of all the games. 
 
 ![image of the top four](documents/readme%20images/topfour.png)
-![image of the bottom three](documents/readme%20images/bottomthree.png.png)
-![image of the whole table](documents/readme%20images/full%20table.png.png)
+![image of the bottom three](documents/readme%20images/bottomthree.png)
+![image of the whole table](documents/readme%20images/full%20table.png)
 
 Choosing to enter the results will ask the user to enter the goals scored by each team for each of the fixtures - first the goals scored by the team playing at home, secondly the goals scored by the team playing away from home. After the results from each matchday is entered, the option is presented to view the table. However, data is saved and the table can be viewed at any point by returning to the menu. 
 
-![image of results entry](documents/readme%20images/matchdayentry.png.jpg)
+![image of results entry](documents/readme%20images/matchdayentry.png)
 
 The third option from the menu is to clear the saved data and clear the table - this will bring the program back to the beginning by clearing both the saved data and the associated spreadsheets. When entering results again, you will be brought back to matchday one.
 
