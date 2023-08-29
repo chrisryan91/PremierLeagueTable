@@ -42,8 +42,8 @@ It runs a while loop until the data entered is valid.
 
 def table(standings):
     while True:
-        print("'View top four, bottom three or the entire table.\n")
-        option = input("Enter 'a', 'b', 'c' for each or 'back' to go back! \n")
+        print(blue("'View top four, bottom three or the entire table.\n"))
+        option = input(red("Enter 'a', 'b', 'c' for each or 'back'\n"))
         if option.strip().lower() == "a":
             # Get the data for the top four teams
             top_4 = [standings.row_values(i) for i in range(1, 6)]
@@ -166,6 +166,7 @@ def all_matches():
         update_fixtures(match, home_result, away_result)
         # Update the standings in the corresponding worksheet
         update_standings(match, home_result, away_result)
+    end_of_season(standings)
 
 
 """
@@ -319,6 +320,24 @@ def sort():
         print(range_string)
         # This will sort by goal difference if points are equal
         standings.sort((2, 'des'), range=range_string)
+
+
+def end_of_season(standings):
+    print(blue("We have reached the end of the season! \n"))
+    first = standings.acell("A2").value
+    second = standings.acell("A3").value
+    third = standings.acell("A4").value
+    print(yellow("The champions are " + first + "!\n"))
+    print(green("Runner up is " + second + "!\n"))
+    print(magenta("Third place is " + third + "!\n"))
+    while True:
+        view_table = input(red("Would you like to view the table?")).lower()
+        if view_table in ['yes', 'no']:
+            break
+        else:
+            print("Invalid input. Please enter 'yes' or'no'.")
+        if view_table == 'yes':
+            table(standings)
 
 
 # Calling this function will start the program!
