@@ -2,10 +2,10 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from tabulate import tabulate
+from simple_colors import *
 import colorama
 from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
-from simple_colors import *
 
 
 # Define scope of access for Google Sheets API
@@ -33,11 +33,13 @@ standings = SHEET.worksheet('standings')
 
 
 """
-When called, this function will ask the user to input one of four options depending on what part of the table they want to see.
-It provides the option to go back to the main menu. 
-It uses tabulate the display the data from the standings spreadsheet nicely on the terminal.
-It validates for the correct input with an if, elif, else statement and runs a while loop until the data entered is valid.
+This function will ask the user to input one of four options.
+Each option is either part of the table or to return to the menu.
+It validates for the correct input with an if, elif, else statement.
+It runs a while loop until the data entered is valid.
 """
+
+
 def table(standings):
     while True:
         print("'View top four, bottom three or the entire table.\n")
@@ -45,28 +47,27 @@ def table(standings):
         if option.strip().lower() == "a":
             # Get the data for the top four teams
             top_4 = [standings.row_values(i) for i in range(1, 6)]
-            table_3 = tabulate(top_4, headers='firstrow', tablefmt='fancy_grid')
-            print(red(table_3))
+            tbl_a = tabulate(top_4, headers='firstrow', tablefmt='fancy_grid')
+            print(red(tbl_a))
         elif option.strip().lower() == "b":
             # Get the data from the bottom teams
             bottom = [standings.row_values(i) for i in range(18, 21)]
-            table_2 = tabulate(bottom, headers='firstrow', tablefmt='fancy_grid')
-            print(blue(table_3))
+            tbl_b = tabulate(bottom, headers='firstrow', tablefmt='fancy_grid')
+            print(blue(tbl_b))
         elif option.strip().lower() == "c":
             # Get the entire table
             table = standings.get_all_values()
-            table_3 = tabulate(table, headers='firstrow', tablefmt='fancy_grid')
-            print(yellow(table_3))
+            tbl_c = tabulate(table, headers='firstrow', tablefmt='fancy_grid')
+            print(yellow(tbl_c))
         elif option.strip().lower() == "back":
             return
         else:
             print("Invalid choice - please enter 'a', 'b', 'c', or 'back'.")
 
 
-"""
-When called, this function will validate whether the input is an interget or not. 
-It runs a while loop with a try, except statement inside it which raises a value error is the valid is not an integer.
-"""
+# When called, this function will validate whether the input is an integer.
+
+
 def validate_integer_input(prompt, allow_quit=False):
     while True:
         try:
@@ -82,11 +83,13 @@ def validate_integer_input(prompt, allow_quit=False):
 
 
 """
-For these two functions, I used code that I had found on Stack Overflow.
-The full credits are in the readme.md.
-The save_progress function takes the row index in use by the all_matches function and writes it to the file.
-After the data entry for each match, if the user chooses not to continue the row number will be saved.
+For these two functions, I used code that I had found via tutorials.
+This function takes the row index in use by all_matches function.
+It then writes the row index into the progress.txt file.
+If the user chooses not to continue when asked the row number will be saved.
 """
+
+
 def save_progress(index):
     with open("progress.txt", "w") as f:
         f.write(str(index))
@@ -94,9 +97,11 @@ def save_progress(index):
 
 """
 This function is called upon to read the saved data in the progress.txt file.
-It contains a try, except statement that attempts to find the row number to serve as the point to start off again.
-It returns the content either as an integer or zero if no value is found. 
+It tries to find the row number to serve as the point to start off again.
+It returns the content either as an integer or a string 0 if no value is found.
 """
+
+
 def load_progress():
     try:
         with open("progress.txt", "r") as f:
@@ -110,10 +115,12 @@ def load_progress():
 
 
 """
-This function will be called if the user chooses to view the table after each matchday has finished.
-It contains a while loop and an if, else statement to check if the input is valid.
+This function will be called if the user chooses to view the table whenever.
+It checks if the input is valid with a While loop and If statement.
 It calls the table function to display the table.
 """
+
+
 def new_matchday(matchday_number):
     print(f"Starting {matchday_number}? \n")
     while True:
@@ -127,13 +134,14 @@ def new_matchday(matchday_number):
 
 
 """
-When called, this function will load progress from the progress.txt file. It will determine which match to seek data for.
-The function will call the new_matchday function after the start of each new matchday.
-It prints the current matchday, the two teams currently playing, and asks for an input for each.
-It calls the update_fixtures fuction with the data.
-It then runs a while loop with another query regarding if they want to continue entering data or go back to the menu.
+This function will load progress from the progress.txt file.
+It will call the new_matchday function after the start of each new matchday.
+It prints the current natch and asks for an input for each teams goals.
+It calls the update_fixtures fuction with the data - or to quit and go back.
 Data will be saved if they choose not to continue.
 """
+
+
 def all_matches():
     # Load progress from the progress.txt file
     start_index = load_progress()
@@ -144,13 +152,16 @@ def all_matches():
         if row_number % 11 == 0:
             new_matchday(matchday_number)
         print(Fore.GREEN + f"Matchday {match[1]} \n")
-        print(Fore.BLUE + f"{match[3]} vs. {match[4]} - {match[3]} play at home! \n")
+        print(Fore.RED + f"{match[3]} vs. {match[4]} - {match[3]} at home!\n")
         print(Fore.YELLOW + "Please enter one positive interger or zero! \n")
-        home_result = validate_integer_input("Enter goals for " + Fore.RED + f"{match[3]}" + Fore.RESET + " (or) " + Fore.BLUE + "'quit'" + Fore.RESET + " to quit)\n" + Fore.RESET, True)
+        f_rst = Fore.RESET
+        chc_a = Fore.BLUE + f"Enter goals for {match[3]} (or 'quit')\n" + f_rst
+        home_result = validate_integer_input(chc_a, True)
         if home_result is False:
             save_progress(row_number)
             break
-        away_result = validate_integer_input("Enter goals for " + Fore.MAGENTA + f"{match[4]}\n" + Fore.RESET)
+        chc_b = Fore.MAGENTA + f"Enter goals for {match[4]}\n" + f_rst
+        away_result = validate_integer_input(chc_b)
         # Update the rest in the fixture worksheet
         update_fixtures(match, home_result, away_result)
         # Update the standings in the corresponding worksheet
@@ -158,12 +169,13 @@ def all_matches():
 
 
 """
-In the menu, the user has the option to clear all the results from the spreadsheets and data from the progress file.
-If called, the function will use a try, except statement to write empty data in the cells or the files for the results.
-It first opens the progress.txt and writes empty data.
-It then updates specific cells in both the spreadsheets by looping through a list of ranges.
+The user can clear the results from the spreadsheets and saved data.
+Thhe function will try to write empty data in the cells or the files.
+It then updates specific cells in both the spreadsheets.
 If there is no error, it calls the menu function.
 """
+
+
 def clear_results(fixtures, standings):
     try:
         with open("progress.txt", "w") as f:
@@ -191,21 +203,27 @@ def clear_results(fixtures, standings):
 
 
 """
-The menu function is what greets the user when they run the program. It prints off an introduction and asks the user for a choice.
-It runs a while loop and determines the users choice with an if, elif and else statement to check the input.
-Depending on the choice, it calls the associated function. 
-It runs another while loop with an if, elif, else statement to confirm if the user wants to clear all data and start again.
-The user also has a choice to exit the program. If selected, the choice to exit will break the while loop.
+The menu function is what greets the user when they run the program.
+It prints off an introduction and asks the user for a choice.
+It finds the users choice and calls the correct function.
+It confirms if the user wants to clear all data and start again.
+The user also has a choice to exit the program.
 """
+
+
 def menu():
     while True:
         print("-----------------------------------------------")
         print(Fore.RED + "Welcome to the English Premier League Table!")
         print("-----------------------------------------------\n")
-        print("Type" + Fore.BLUE + " 'league table' " + Fore.RESET + "see the table: - \n")
-        print("Type" + Fore.YELLOW + " 'enter results' " + Fore.RESET + "to enter matchday results: - \n")
-        print("Type" + Fore.GREEN + " 'clear results' " + Fore.RESET + "to begin again: - \n")
-        choice = input(Fore.MAGENTA + "Enter choice: " + Fore.RESET + "\n")
+        f_B = Fore.BLUE
+        f_Y = Fore.YELLOW
+        f_G = Fore.GREEN
+        f_RT = Fore.RESET
+        print("Type"+f_B+" 'league table' "+f_RT+"see the table: \n")
+        print("Type"+f_Y+" 'enter results' "+f_RT+"to enter results: \n")
+        print("Type"+f_G+" 'clear results' "+f_RT+"to begin again: \n")
+        choice = input(Fore.MAGENTA + "Enter choice: "+Fore.RESET+"\n")
         if choice.strip().lower() == str("league table"):
             table(standings)
         elif choice.strip().lower() == str("enter results"):
@@ -230,12 +248,14 @@ def menu():
 
 """
 This function will update the fixtures spreadsheet when called.
-It first prints and result that was inputted and finds the row value for each of the matches.
+It prints back what was inputted and finds the row value for each matches.
 It first updates the two cells with points the goals scored by each team.
-It then updates further two cells with a calculated goal difference of each match.
+It then updates further two cells with the goal difference of each match.
 """
+
+
 def update_fixtures(match, home_result, away_result):
-    print(str(home_result) + " : " + str(away_result) + "\n")
+    print("\n" + str(home_result) + " : " + str(away_result) + "\n")
     row = int(match[0])
     fixtures.update_cell(int(row), 6, int(home_result))
     fixtures.update_cell(int(row), 7, int(away_result))
@@ -247,16 +267,16 @@ def update_fixtures(match, home_result, away_result):
 
 """
 This function will update the standings spread when called.
-It will first find the team name from the first spreadsheet to get its row number.
-It then calculates the goal difference for the Home and Away team - and the values already present in the cells from prior entries. 
-It then uses an if, elif, else statement to determine what cells to update - if there is a home team win, draw, or away team win.
+It will find the team name from the standings sheet to get its row number.
+It then calculates the goal difference for the home and away team.
+It then uses an if, elif, else statement to determine what cells to update.
 """
+
+
 def update_standings(match, home_result, away_result):
 
     cell_home = standings.find(str(match[3]))
     cell_away = standings.find(str(match[4]))
-    print(match[3])
-    print(match[4])
     home_gd = int(home_result) - int(away_result)
     away_gd = int(away_result) - int(home_result)
     home_before = standings.cell((cell_home.row), 3).value
@@ -264,24 +284,28 @@ def update_standings(match, home_result, away_result):
     home_gd_before = standings.cell((cell_home.row), 2).value
     away_gd_before = standings.cell((cell_home.row), 2).value
     if home_result > away_result:
-        standings.update_cell((cell_home.row), 3, (int(home_before) +3))
-        standings.update_cell((cell_home.row), 2, int(home_gd_before) + home_gd)
-        standings.update_cell((cell_away.row), 2, int(away_gd_before) + away_gd)
+        standings.update_cell((cell_home.row), 3, (int(home_before)+3))
+        standings.update_cell((cell_home.row), 2, int(home_gd_before)+home_gd)
+        standings.update_cell((cell_away.row), 2, int(away_gd_before)+away_gd)
     elif home_result == away_result:
-        standings.update_cell((cell_home.row), 3, (int(home_before) + 1))
-        standings.update_cell((cell_away.row), 3, (int(away_before) + 1))
+        standings.update_cell((cell_home.row), 3, (int(home_before)+1))
+        standings.update_cell((cell_away.row), 3, (int(away_before)+1))
     else:
-        standings.update_cell((cell_away.row), 3, (int(away_before) + 3))
-        standings.update_cell((cell_home.row), 2, int(home_gd_before) +  home_gd)
-        standings.update_cell((cell_away.row), 2, int(away_gd_before) + away_gd)
+        standings.update_cell((cell_away.row), 3, (int(away_before)+3))
+        standings.update_cell((cell_home.row), 2, int(home_gd_before)+home_gd)
+        standings.update_cell((cell_away.row), 2, int(away_gd_before)+away_gd)
     sort()
 
 
 """
-This function is called when the sheets have been updated - it will subsequently sort the cells in the correct order.
-It uses the sort function from gspread to display the rows - i.e teams - by points in descending order. 
-It then uses an if statement to check if there are two or more top teams, and will then resort the top teams by goal difference
+This function is called when the sheets have been updated.
+It will then sort the cells in the correct order.
+It uses the sort function to display the rows by points in descending order.
+It then uses an if statement to check if there are two or more top teams.
+It will then resort the top teams by goal difference
 """
+
+
 def sort():
     # The standings are sorted by points
     standings.sort((3, 'des'), range='A2:C21')
