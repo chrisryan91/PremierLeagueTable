@@ -113,4 +113,12 @@ I have manual tested the project by doing the following:
 
 The project was deployed using Code Institute's mock terminal for Heroku. 
 
-## Credits
+## Credits & Acknowledgements
+
+- This YouTube video from Tech With Tim with help using the colorama module: https://www.youtube.com/watch?v=u51Zjlnui4Y
+
+- This Stack Overflow user with help with colouring tables: https://stackoverflow.com/questions/76734963/colorama-not-working-with-tabulate-to-display-colored-output-in-python
+
+- The vast majority of solutions to issues I ran into came from Stack Overflow especially regarding While loop issues and Try, Except statements.
+
+- This YouTube video with help regarding saving to a file and loading from a file: https://www.youtube.com/watch?v=Uh2ebFW8OYM

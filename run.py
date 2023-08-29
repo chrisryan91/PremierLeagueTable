@@ -2,6 +2,10 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from tabulate import tabulate
+import colorama
+from colorama import Fore, Back, Style
+colorama.init(autoreset=True)
+from simple_colors import *
 
 
 # Define scope of access for Google Sheets API
@@ -41,15 +45,18 @@ def table(standings):
         if option.strip().lower() == "a":
             # Get the data for the top four teams
             top_4 = [standings.row_values(i) for i in range(1, 6)]
-            print(tabulate(top_4, headers='firstrow', tablefmt='fancy_grid'))
+            table_3 = tabulate(top_4, headers='firstrow', tablefmt='fancy_grid')
+            print(red(table_3))
         elif option.strip().lower() == "b":
             # Get the data from the bottom teams
             bottom = [standings.row_values(i) for i in range(18, 21)]
-            print(tabulate(bottom, headers='firstrow', tablefmt='fancy_grid'))
+            table_2 = tabulate(bottom, headers='firstrow', tablefmt='fancy_grid')
+            print(blue(table_3))
         elif option.strip().lower() == "c":
             # Get the entire table
             table = standings.get_all_values()
-            print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
+            table_3 = tabulate(table, headers='firstrow', tablefmt='fancy_grid')
+            print(yellow(table_3))
         elif option.strip().lower() == "back":
             return
         else:
@@ -60,13 +67,17 @@ def table(standings):
 When called, this function will validate whether the input is an interget or not. 
 It runs a while loop with a try, except statement inside it which raises a value error is the valid is not an integer.
 """
-def validate_integer_input(prompt):
+def validate_integer_input(prompt, allow_quit=False):
     while True:
         try:
-            value = int(input(prompt))
+            user_input = input(prompt)
+            value = int(user_input)
             value >= 0
             return value
         except ValueError:
+            if allow_quit is True:
+                if user_input == "quit":
+                    return False
             print("Invalid input. Please enter a valid integer.")
 
 
@@ -79,6 +90,7 @@ After the data entry for each match, if the user chooses not to continue the row
 def save_progress(index):
     with open("progress.txt", "w") as f:
         f.write(str(index))
+
 
 """
 This function is called upon to read the saved data in the progress.txt file.
@@ -102,7 +114,6 @@ This function will be called if the user chooses to view the table after each ma
 It contains a while loop and an if, else statement to check if the input is valid.
 It calls the table function to display the table.
 """
-
 def new_matchday(matchday_number):
     print(f"Starting {matchday_number}? \n")
     while True:
@@ -132,26 +143,18 @@ def all_matches():
         matchday_number = int(match[1])
         if row_number % 11 == 0:
             new_matchday(matchday_number)
-        print(f"{match[1]} \n")
-        print(f"{match[3]} vs. {match[4]} - {match[3]} play at home! \n")
-        print("Please enter one positive interger or zero! \n")
-        home_result = validate_integer_input(f"Enter goals for {match[3]} \n")
-        away_result = validate_integer_input(f"Enter goals for {match[4]} \n")
+        print(Fore.GREEN + f"Matchday {match[1]} \n")
+        print(Fore.BLUE + f"{match[3]} vs. {match[4]} - {match[3]} play at home! \n")
+        print(Fore.YELLOW + "Please enter one positive interger or zero! \n")
+        home_result = validate_integer_input("Enter goals for " + Fore.RED + f"{match[3]}" + Fore.RESET + " (or) " + Fore.BLUE + "'quit'" + Fore.RESET + " to quit)\n" + Fore.RESET, True)
+        if home_result is False:
+            save_progress(row_number)
+            break
+        away_result = validate_integer_input("Enter goals for " + Fore.MAGENTA + f"{match[4]}\n" + Fore.RESET)
         # Update the rest in the fixture worksheet
         update_fixtures(match, home_result, away_result)
         # Update the standings in the corresponding worksheet
         update_standings(match, home_result, away_result)
-        # Start a loop to validate data
-        while True:
-            after_matchday = input("Continue? Input 'yes' or 'no'): ").lower()
-            if after_matchday in ['yes', 'no']:
-                break
-            else:
-                print("Invalid input. Please enter 'yes' or 'no'.")
-        if after_matchday == 'no':
-            # Save the progress and exit the loop
-            save_progress(row_number)
-            break
 
 
 """
@@ -197,12 +200,12 @@ The user also has a choice to exit the program. If selected, the choice to exit 
 def menu():
     while True:
         print("-----------------------------------------------")
-        print("Welcome to the English Premier League Table!")
+        print(Fore.RED + "Welcome to the English Premier League Table!")
         print("-----------------------------------------------\n")
-        print("Type 'league table' to see the table: - \n")
-        print("Type 'enter results' to enter matchday results: - \n")
-        print("Type 'clear results' to begin again: - \n")
-        choice = input(f"Enter choice: - \n")
+        print("Type" + Fore.BLUE + " 'league table' " + Fore.RESET + "see the table: - \n")
+        print("Type" + Fore.YELLOW + " 'enter results' " + Fore.RESET + "to enter matchday results: - \n")
+        print("Type" + Fore.GREEN + " 'clear results' " + Fore.RESET + "to begin again: - \n")
+        choice = input(Fore.MAGENTA + "Enter choice: " + Fore.RESET + "\n")
         if choice.strip().lower() == str("league table"):
             table(standings)
         elif choice.strip().lower() == str("enter results"):
