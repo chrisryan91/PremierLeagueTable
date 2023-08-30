@@ -44,7 +44,7 @@ I made this rudimentary sketch of the logic and structure of the program I wante
 
 ![image of the original flow chat](documents/readme%20images/flow_chart.png)
 
-The current logic flow is similar. The logic of the program is documented with Lucid Charts. Where there is a red square, requires validated input:
+The current logic flow is similar. The logic of the program is documented with Lucid Charts. Where there is a red square, valid input is required:
 
 ![image of current logic of code](documents/readme%20images/lucid_chat.png)
 
@@ -135,7 +135,7 @@ I have manual tested the program by running it the whole way through. The progre
 #### Remaining Bugs
 
 - See features to implement.
-  
+
 ### Other testing
 
 - I tested the code manually on my local terminal on VS Code and on the Heroku terminal.
