@@ -118,9 +118,11 @@ I have manual tested the program by running it the whole way through. The progre
 
 - I ran into bugs whenever I tried to validate code. I would use a While loop in a function and break it at the wrong point. I could continue at the wrong point. This kept on happened whenever I tried to validate an input and ask for the input again. This was the case for the table function, all_matches function and menu functions. I used Stack Overflow to resolve these issues. I sometimes created separate functions to validate an input such as creating the validate_integer_input function.
   
+- - A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. 
+
 #### Remaining Bugs
 
-- A bug I noticed just before deployment occurs when using the validate_input
+I think I resolved all remaining bugs.
   
 ### Validator Testing
 
