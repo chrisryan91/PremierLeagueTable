@@ -192,7 +192,7 @@ def all_matches():
         # Update the standings in the corresponding worksheet
         update_standings(match, home_result, away_result)
         while True:
-            cont_ip = Fore.GREEN + "Would you like to continue? Yes or no? \n" + f_rst
+            cont_ip = Fore.GREEN + "Continue? Yes or no? \n" + f_rst
             cont = input(cont_ip).lower()
             if str(cont) == "yes":
                 break
@@ -201,7 +201,7 @@ def all_matches():
             else:
                 print("Invalid data! Try again!")
                 continue
-            
+
     save_progress(row_number)
     end_of_season(standings)
 
