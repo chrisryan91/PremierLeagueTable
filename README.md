@@ -60,11 +60,9 @@ The program contains checks to make sure that the data entered is correct. If it
 
 ### Future Features 
 
+- One bug I ran into only in the late stage of development before deployment was how the teams below the top teams were sorted. The method I was using to sort teams by goal difference only worked - and still does - on teams that have equal points on top of the league. I ran into issues when trying to come up with a solution to this bug so it remains a feature left to implement. The method I had to sort the teams on equal points grew unruly very quick.
+
 - The game should be more easily adaptable for other leagues. For example, two teams with level points are not sorted by goal difference in other leagues. In the German league, for example, the position of two teams with equal points is determined by the result of their head-to-head matches. The program should also allow for the entry of data into the spreadsheet for other leagues rather than using manual input.
-
-- More variables could be added to get more specific with input values such as top-scoring player. If the program allowed for entry of who scored the goals, the program could determine the top scorer. 
-
-- Rather than displaying the Home team or the Away team, the program could simply ask for the ground in which the match is played. Rather than displaying "Home team: ManCity, Away team: Newcastle", the program could ask "Ground to be played by ManCity vs Newcastle" and the answer would determine who played at home. If "St. James Park" is entered, Newcastle is the Home team. If "Etihad Stadium" is entered, ManCity is at home. 
 
 - There are many other statistics from soccer games that could be added and utilized: possession of the ball for each time, expected goals, red cards, yellow cards, and substitutions that could be integrated. 
 
@@ -118,11 +116,11 @@ I have manual tested the program by running it the whole way through. The progre
 
 - I ran into bugs whenever I tried to validate code. I would use a While loop in a function and break it at the wrong point. I could continue at the wrong point. This kept on happened whenever I tried to validate an input and ask for the input again. This was the case for the table function, all_matches function and menu functions. I used Stack Overflow to resolve these issues. I sometimes created separate functions to validate an input such as creating the validate_integer_input function.
   
-- - A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. 
+- - A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0.
 
 #### Remaining Bugs
 
-I think I resolved all remaining bugs.
+- See features to implement.
   
 ### Validator Testing
 

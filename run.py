@@ -353,7 +353,6 @@ def sort():
     if top > 1:
         new_top = (top + 1)
         range_string = 'A2:C' + str(new_top)
-        print(range_string)
         standings.sort((2, 'des'), range=range_string)
 
 
