@@ -67,7 +67,7 @@ It runs a while loop until the data entered is valid.
 
 def table(standings):
     while True:
-        print(blue("'View top four, bottom three or the entire table.\n"))
+        print(blue("View top four, bottom three or the entire table.\n"))
         option = input(red("Enter 'a', 'b', 'c' for each or 'back'\n"))
         if option.strip().lower() == "a":
             # Get the data for the top four teams
@@ -197,6 +197,7 @@ def all_matches():
             if str(cont) == "yes":
                 break
             elif str(cont) == "no":
+                save_progress(row_number)
                 return False
             else:
                 print("Invalid data! Try again!")
