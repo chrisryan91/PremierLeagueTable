@@ -38,6 +38,16 @@ In this English example, 380 games are played for 38 matchdays with ten games pe
 
 ![image of the choosing to 'clear results'](documents/readme%20images/clear_results.png)
 
+### Logic
+
+I made this rudimentary sketch of the logic and structure of the program I wanted to create. Once I had written a few functions and decided which way to build the project, I sketched out how I wanted to code to flow. Anticipating being unable to keep my code within these confines, I used this sketch as a basic template. This hand drawn chart reflects the final project as it stopped me veering off course:
+
+![image of the original flow chat](documents/readme%20images/flow_chart.png)
+
+The current logic flow is similar. The logic of the program is documented with Lucid Charts. Where there is a red square, requires validated input:
+
+![image of current logic of code](documents/readme%20images/lucid_chat.png)
+
 ### Existing Features
 #### Google Sheet Integration 
 - The program interacts with a Google Sheet document titled *League table*. The document contains two worksheets titled *standings* and *fixtures*. Data is taken from the *fixtures* worksheet. Resulting data updates both the *fixtures* and *standings* worksheet. *Standings* maintains the sorted league. 
