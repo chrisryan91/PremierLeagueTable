@@ -67,17 +67,20 @@ def table(standings):
 
 # When called, this function will validate whether the input is an integer.
 def validate_integer_input(prompt, allow_quit=False):
+
+    user_input = input(prompt)
+    if user_input == "quit" and allow_quit:
+        return None
     while True:
         try:
-            user_input = input(prompt)
             value = int(user_input)
-            value >= 0
-            return value
+            if value >= 0:
+                return value
+            else:
+                print("Invalid input. Please enter a positive integer.")
         except ValueError:
-            if allow_quit is True:
-                if user_input == "quit":
-                    return False
             print("Invalid input. Please enter a valid integer.")
+        user_input = input(prompt)
 
 
 """
@@ -155,15 +158,19 @@ def all_matches():
         f_rst = Fore.RESET
         chc_a = Fore.BLUE + f"Enter goals for {match[3]} (or 'quit') \n" + f_rst
         home_result = validate_integer_input(chc_a, True)
-        if home_result is False:
+        if home_result is None:
             save_progress(row_number)
-            break
+            menu()
         chc_b = Fore.MAGENTA + f"Enter goals for {match[4]} \n" + f_rst
         away_result = validate_integer_input(chc_b)
+        if away_result is None:
+            save_progress(row_number)
+            menu()
         # Update the rest in the fixture worksheet
         update_fixtures(match, home_result, away_result)
         # Update the standings in the corresponding worksheet
         update_standings(match, home_result, away_result)
+    save_progress(row_number)
     end_of_season(standings)
 
 

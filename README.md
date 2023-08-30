@@ -30,7 +30,7 @@ Choosing to enter the results will ask the user to enter the goals scored by eac
 
 The third option from the menu is to clear the saved data and clear the table - this will bring the program back to the beginning by removing text from the progress.txt file and data from the associated spreadsheets. When entering results again, you will be brought back to matchday one.
 
-![image of the clear_results](documents/readme%20images/end_of_season.png)
+![image of the the end of the season function](documents/readme%20images/end_of_season.png)
 
 In this English example, 380 games are played for 38 matchdays with ten games per matchday. At the end of the season, when all the games of rows have been looped through, the champions and runners-up are printed to the terminal with the option to view to entire table again.
 
@@ -116,13 +116,11 @@ I have manual tested the program by running it the whole way through. The progre
 
 - There were many bugs in both the functions to update the spreadsheets. Wrong values were inputted in the right places. The right values were inputted in the wrong places. It took a combing with a fine toothcomb but the values entered for each cell are correct.
 
-- The function to 
+- I ran into bugs whenever I tried to validate code. I would use a While loop in a function and break it at the wrong point. I could continue at the wrong point. This kept on happened whenever I tried to validate an input and ask for the input again. This was the case for the table function, all_matches function and menu functions. I used Stack Overflow to resolve these issues. I sometimes created separate functions to validate an input such as creating the validate_integer_input function.
   
 #### Remaining Bugs
 
-- a
-
-- b
+- A bug I noticed just before deployment occurs when using the validate_input
   
 ### Validator Testing
 
@@ -131,6 +129,27 @@ The code was run through the Code Institute Python linter with a few issues init
 Now the code passes through the linter with no issues. 
 
 ![image of the run.py code ran through the Code Institute Linter](documents/readme%20images/linter_checker.png)
+
+## Libraries & Technologies User
+### Python Libraries 
+I installed a lot of different libraries while making this program. The ones used in the end are as follows:
+
+- **gspread** to communicate with Google Sheets
+  
+- **Colorama** was used to colour text in the terminal
+  
+- **simple_colors** was used to colour tables in the terminal.
+  
+- **Tabulate** was used to display terminals with an appealing design.
+
+### Programs Used
+
+- **GitHub** was used for version control
+
+- **Heroku** was used to display the project live. 
+  
+- **CI Python Linter** was used to validate Python code. 
+
 ## Deployment
 
 The project was deployed using Code Institute's mock terminal for Heroku. 
