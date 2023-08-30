@@ -11,7 +11,9 @@ The program utilizes the 2023/2024 English Premier League season. However, the p
 
 ## Owner Goals
 
-My goal for this project was to provide the user with a program with the ability to update a league table throughout a season whenever the results come in. I wanted the user to even potentially use speculative results to be able to update a fantasy league table. Fantasy results could be inputted as results of a fantasy match. In its current form, the program runs a specific year in a specific league - the English League in its 2023/2024 season. The malleable nature of the spreadsheet means it can be updated to include any league - even fake teams, in fake leagues with fake results. The program sorts the games in the style of a round-robin tournament where every team meets each other twice. This opposes the elimination tournament found in World Cups or other head-to-head Cup tournaments.
+My goal for this project was to provide the user with a program with the ability to update a league table throughout a season whenever the results come in. I wanted the user to even potentially use speculative results to be able to update a fantasy league table. Fantasy results could be inputted as results of a fantasy match. 
+
+In its current form, the program runs a specific year in a specific league - the English League in its 2023/2024 season. The malleable nature of the spreadsheet means it can be updated to include any league - even fake teams, in fake leagues with fake results. The program sorts the games in the style of a round-robin tournament where every team meets each other twice. This opposes the elimination tournament found in World Cups or other head-to-head Cup tournaments.
 
 ## Features 
 ### How to Use
@@ -118,15 +120,17 @@ I have manual tested the program by running it the whole way through. The progre
   
 - A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0.
 
+- Lastly, when I deployed my project to Heroku, I noticed another bug. If choosing to quit entering inputs for the match scores, the user chose to quit and they were returned to the menu where they were faced again with four options. In returning, if choosing to exit the program, the program would not exit, but the all_matches function would be called. I should not have called the menu function from within the all_matches function - it caused an error. To resolve this, I needed to ask the question - "Continue? Yes or no?" - as a separate input option after inputting the match data. I used a while loop with an if, elif, else statement inside it. This seemingly resolved the issue but being asked to input "yes" or "no" after every match may lead to a frustrating user experience.
+
 #### Remaining Bugs
 
 - See features to implement.
   
-### Validator Testing
+### Other testing
 
-The code was run through the Code Institute Python linter with a few issues initially. The lines of some of the code exceeded the cut-off point. In most cases, these were print functions whose strings I needed to reduce. This is especially true when I added simple_colors and Colorama modules to try to colour the code in the terminal. In these cases, I set new variables with the strings for printing and printed the strings. 
+- I tested the code manually on my local terminal on VS Code and on the Heroku terminal.
 
-Now the code passes through the linter with no issues. 
+- The code was run through the Code Institute Python linter with a few issues initially. The lines of some of the code exceeded the cut-off point. In most cases, these were print functions whose strings I needed to reduce. This is especially true when I added simple_colors and Colorama modules to try to colour the code in the terminal. In these cases, I set new variables with the strings for printing and printed the strings. Now the code passes through the linter with no issues.
 
 ![image of the run.py code ran through the Code Institute Linter](documents/readme%20images/linter_checker.png)
 
@@ -134,9 +138,9 @@ Now the code passes through the linter with no issues.
 ### Python Libraries 
 I installed a lot of different libraries while making this program. The ones used in the end are as follows:
 
-- **gspread** to communicate with Google Sheets
+- **gspread** to communicate with Google Sheets.
   
-- **Colorama** was used to colour text in the terminal
+- **Colorama** was used to colour text in the terminal.
   
 - **simple_colors** was used to colour tables in the terminal.
   
@@ -144,7 +148,7 @@ I installed a lot of different libraries while making this program. The ones use
 
 ### Programs Used
 
-- **GitHub** was used for version control
+- **GitHub** was used for version control.
 
 - **Heroku** was used to display the project live. 
   
@@ -153,6 +157,24 @@ I installed a lot of different libraries while making this program. The ones use
 ## Deployment
 
 The project was deployed using Code Institute's mock terminal for Heroku. 
+
+### Steps for Deployment
+
+1. Create a new App on Heroku.
+
+2. In the settings tab, go to Config Vars.
+
+3. Input relevant Keys and Values.
+  
+4. In Buildpacks, add python and js.node in that order.
+
+5. In the deploy tab, select GitHub as deployment method. 
+  
+6. Confirm connection to GitHub and search for repository.
+  
+7. Choose enable Automatic or Manual Deployment.
+
+8. Click view to view the site. 
 
 ## Credits & Acknowledgements
 
