@@ -11,27 +11,36 @@ The program utilizes the 2023/2024 English Premier League season. However, the p
 
 ## How to use
 
-![image of the fixtures spreadsheet](documents/readme%20images/fixturestable.png)
+![image of the menu](documents/readme%20images/menu.png)
+
 When the program runs, you user is given four menu options - view table, enter results, clear the results and table, and exit the program. Viewing the table will ask the user if they want to see the top four teams, the bottom three teams or the entire table. At the start, the table will have no resulting values. By the end of the season with all results in, the table will have the result of all the games. 
-
-![image of the top four](documents/readme%20images/topfour.png)
-![image of the bottom three](documents/readme%20images/bottomthree.png)
-![image of the whole table](documents/readme%20images/full%20table.png)
-
-Choosing to enter the results will ask the user to enter the goals scored by each team for each of the fixtures - first the goals scored by the team playing at home, secondly the goals scored by the team playing away from home. After the results from each matchday is entered, the option is presented to view the table. However, data is saved and the table can be viewed at any point by returning to the menu. 
 
 ![image of results entry](documents/readme%20images/matchdayentry.png)
 
-The third option from the menu is to clear the saved data and clear the table - this will bring the program back to the beginning by clearing both the saved data and the associated spreadsheets. When entering results again, you will be brought back to matchday one.
+Choosing to enter the results will ask the user to enter the goals scored by each team for each of the fixtures - first the goals scored by the team playing at home, secondly the goals scored by the team playing away from home. After the results from each matchday is entered, the option is presented to view the table. However, data is saved and the table can be viewed at any point by returning to the menu. 
+
+![image of the top four](documents/readme%20images/topfour.png)
+
+![image of the whole table](documents/readme%20images/full%20table.png)
+
+The third option from the menu is to clear the saved data and clear the table - this will bring the program back to the beginning by removing text from the progress.txt file and data from the associated spreadsheets. When entering results again, you will be brought back to matchday one.
 
 ![image of the clear_results](documents/readme%20images/endofseason.png)
 
-In this English example, 380 games are played over the course of 38 matchdays with ten games per matchday. This program could be adapted to any other soccer league which uses a round-robin system by updating the two associated spreadsheets. 
+In this English example, 380 games are played over the course of 38 matchdays with ten games per matchday. At the end of the season, when all the games of rows have been looped through, the champions and runners up are printed to the terminal with the option to view to entire table again.
+
+![image of the choosing to 'clear results'](documents/readme%20images/clear_results.png)
+
+The first spreadsheet is the table in which the match data results are sorted. There are three headers for the team name, total goal difference and total points. It contains rows for each of the teams in the league.
+
+![image of the fixtures spreadsheet](documents/readme%20images/fixturestable.png)
+
+The second spreadsheet is for the fixtures from which the match data is taken from. There are no headers. Each row contains values for the details of each of the 380 matches. There are nine columns: the match number, the matchday number, date of the game, home team, away team, goal difference for home team, goal difference for away team, points for home team, points for away team.
 
 ![image of the standings spreadsheet](documents/readme%20images/standingstable.png)
 
-![image of the fixtures spreadsheet](documents/readme%20images/fixturestable.png)
-The first spreadsheet is for the fixtures from which the match data is taken from. The second spreadsheet is the table in which the match data results are sorted. 
+This program could be adapted to any other soccer league which uses a round-robin system by changing the data of the the two associated spreadsheets.
+
 
 ## Features
 ### Existing Features
