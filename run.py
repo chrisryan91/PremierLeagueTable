@@ -151,7 +151,7 @@ def all_matches():
             new_matchday(matchday_number)
         print(Fore.GREEN + f"Matchday {match[1]} \n")
         print(Fore.RED + f"{match[3]} vs. {match[4]} - {match[3]} at home!\n")
-        print(Fore.YELLOW + "Please enter one positive interger or zero! \n")
+        print(Fore.YELLOW + "Please enter one positive integer or zero! \n")
         f_rst = Fore.RESET
         chc_a = Fore.BLUE + f"Enter goals for {match[3]} (or 'quit')\n" + f_rst
         home_result = validate_integer_input(chc_a, True)
@@ -218,11 +218,13 @@ def menu():
         f_B = Fore.BLUE
         f_Y = Fore.YELLOW
         f_G = Fore.GREEN
+        f_M = Fore.MAGENTA
         f_RT = Fore.RESET
         print("Type"+f_B+" 'league table' "+f_RT+"see the table: \n")
         print("Type"+f_Y+" 'enter results' "+f_RT+"to enter results: \n")
         print("Type"+f_G+" 'clear results' "+f_RT+"to begin again: \n")
-        choice = input(Fore.MAGENTA + "Enter choice: "+Fore.RESET+"\n")
+        print("Type"+f_M+" 'exit' "+f_RT+"to exit program: \n")
+        choice = input(Fore.RED + "Enter choice: "+Fore.RESET+"\n")
         if choice.strip().lower() == str("league table"):
             table(standings)
         elif choice.strip().lower() == str("enter results"):
