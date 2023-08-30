@@ -192,6 +192,8 @@ The project was deployed using Code Institute's mock terminal for Heroku.
 
 - pythontutor.com 
 
+- Lucid Charts
+
 - This document from WhySports.com with a fixture list: https://drive.google.com/file/d/1uBp6k3KnSF0JRONhWPQxjf3J4ia2X_OA/view
 
 - This YouTube video from Tech With Tim with help using the Colorama module: https://www.youtube.com/watch?v=u51Zjlnui4Y
