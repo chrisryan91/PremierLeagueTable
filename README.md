@@ -1,7 +1,7 @@
 # Premier League Table
 English Premier League Table is a Python terminal program which runs in the Code Institute mock terminal Heroku. 
 
-A user can update the league table by entering the goals scored in each of the weekend's soccer games. The table will sort the results by points and goal difference. The table can be viewed at any point over the season. The data is saved so the program can be exited and returned to. The results can be cleared and the process can start again. 
+When the results of the games are finalised after each match week, a user can update the scores for each game thereby updating the league table. This can be done continuously over the season until all the match results are entered and the champions determined. The table can be viewed at any point over the season. The data is saved so the program can be exited and returned to. The results can be cleared and the process can start again at any point.
 
 The program utilizes the 2023/2024 English Premier League season. However, the program could run any soccer league by updating the associated spreadsheet. 
 
@@ -9,40 +9,33 @@ The program utilizes the 2023/2024 English Premier League season. However, the p
 
 ![image of the program running on Heroku on different devices](image.jpg)
 
-## How to use
+## Owner Goals
+
+My goals for this project was to provide the user with a program with the ability to update a league table over the course of a season whenever the results come in. I wanted the user to even potentially use speculative results to be able to update a fantasy league table. Fantasy results could be inputted as results to a fantasy match. In its current form, the program runs a specific year in a specific league - the English league in it's 2023/2024 season. The malleable nature of the spreadsheet means it can be updated to include any league - even fakes teams, in fakes leagues with fake results. The program sorts the games and inputted results in the style of a round-robin tournament where every team meets each other twice. This opposes the elimination tournament found in World Cups or other head-to-head Cup tournaments.
+
+## Features 
+### How to Use
 
 ![image of the menu](documents/readme%20images/menu.png)
 
 When the program runs, you user is given four menu options - view table, enter results, clear the results and table, and exit the program. Viewing the table will ask the user if they want to see the top four teams, the bottom three teams or the entire table. At the start, the table will have no resulting values. By the end of the season with all results in, the table will have the result of all the games. 
 
-![image of results entry](documents/readme%20images/matchdayentry.png)
+![image of results entry](documents/readme%20images/match_day_entry.png)
 
 Choosing to enter the results will ask the user to enter the goals scored by each team for each of the fixtures - first the goals scored by the team playing at home, secondly the goals scored by the team playing away from home. After the results from each matchday is entered, the option is presented to view the table. However, data is saved and the table can be viewed at any point by returning to the menu. 
 
-![image of the top four](documents/readme%20images/topfour.png)
+![image of the top four](documents/readme%20images/top_four.png)
 
-![image of the whole table](documents/readme%20images/full%20table.png)
+![image of the whole table](documents/readme%20images/full_table.png)
 
 The third option from the menu is to clear the saved data and clear the table - this will bring the program back to the beginning by removing text from the progress.txt file and data from the associated spreadsheets. When entering results again, you will be brought back to matchday one.
 
-![image of the clear_results](documents/readme%20images/endofseason.png)
+![image of the clear_results](documents/readme%20images/end_of_season.png)
 
 In this English example, 380 games are played over the course of 38 matchdays with ten games per matchday. At the end of the season, when all the games of rows have been looped through, the champions and runners up are printed to the terminal with the option to view to entire table again.
 
 ![image of the choosing to 'clear results'](documents/readme%20images/clear_results.png)
 
-The first spreadsheet is the table in which the match data results are sorted. There are three headers for the team name, total goal difference and total points. It contains rows for each of the teams in the league.
-
-![image of the fixtures spreadsheet](documents/readme%20images/fixturestable.png)
-
-The second spreadsheet is for the fixtures from which the match data is taken from. There are no headers. Each row contains values for the details of each of the 380 matches. There are nine columns: the match number, the matchday number, date of the game, home team, away team, goal difference for home team, goal difference for away team, points for home team, points for away team.
-
-![image of the standings spreadsheet](documents/readme%20images/standingstable.png)
-
-This program could be adapted to any other soccer league which uses a round-robin system by changing the data of the the two associated spreadsheets.
-
-
-## Features
 ### Existing Features
 #### Google Sheet Integration 
 - The program interacts with a Google Sheet document titled *league table*. The document contains two worksheets titled *standings* and *fixtures*. Data is taken from the *fixtures* worksheet. Resulting data updates both the *fixtures* and *standings* worksheet. *Standings* maintains the sorted league. 
@@ -67,9 +60,12 @@ The program contains checks to make sure that the data entered is correct. If it
 
 ### Future Features 
 
-- The game should be more easily adaptable for other leagues. This would require different functions and sorting methods. For example, two teams with level points are not sorted by goal difference in other leagues. In the German league for example, the position of two teams with equal points is determined by the result of their head to head matches. The program should also allow for the entry of data into the spreadsheet for other leagues rather than using manual input.
+- The game should be more easily adaptable for other leagues. For example, two teams with level points are not sorted by goal difference in other leagues. In the German league for example, the position of two teams with equal points is determined by the result of their head to head matches. The program should also allow for the entry of data into the spreadsheet for other leagues rather than using manual input.
+
 - More variables could be added to get more specific with input values such as top scoring player. If the program allowed for entry of who scored the goals, the program could determine the top scorer. 
+
 - Rather than displaying Home team or Away team, the program could simply ask for the ground in which the match is played. Rather than displaying "Home team: ManCity, Away team: Newcastle", the program could ask "Ground to be played by ManCity vs Newcastle" and the answer would determine who played at home. If "St. James Park" is entered, Newcastle is the Home team. If "Etihad Stadium" is entered, ManCity are at home. 
+
 - There are many other statistics from soccer games that could be added and utilized: possession of the ball for each time, expected goals, red cards, yellow cards, substitutions that could be integrated. 
 
 ## Data Model
@@ -80,7 +76,8 @@ Google Sheets were used to model the data for this program. Google Sheets allowe
 
 The fixtures worksheet contains rows for each game of the season. 
 
-There are nine headers in the fixtures worksheet.
+There are nine headers in the fixtures worksheet:
+
 1. The match number
 2. The matchday number
 3. Home team
@@ -90,15 +87,17 @@ There are nine headers in the fixtures worksheet.
 7. Away team goals
 8. Home team goal difference
 9. Away team goal difference
-    
+
+![image of the fixtures spreadsheet](documents/readme%20images/fixtures_table.png)
 ### Standings Worksheet
 
-The standings worksheet contains the table itself. The row values are for each team. 
+The standings worksheet contains the table itself. The row values are for each team. There are no headers. Each of the columns contains values for:
 
-The headers are three headers to sort the table:
 1. Team name
 2. Overall goal difference
 3. Overall points
+
+![image of the standings spreadsheet](documents/readme%20images/standings_table.png)
 
 ### Progress tracking and saving
 
@@ -110,14 +109,37 @@ The program processes goal differences, updates the standings, updates the point
 
 ## Testing
 
-I have manual tested the project by doing the following: 
+I have manual tested the program by running it the whole way through. The progress.txt file can be edited to enter a later row value to test the later sections of the end_of_season function by entering a row value nearer to the end. I found no bugs when I tested the project manually.
 
 ### Bugs
 #### Solved Bugs
 
+- There were many bugs in both the functions to update the spreadsheets. Wrong values were inputted in the right places. Right values were inputted in the wrong places. It took a combing with a fine toothcomb but the values entered for each cell are correct.
+
+- The function to 
+  
 #### Remaining Bugs
+
+- a
+
+- b
 ### Validator Testing
 
+The code was ran through the Code Institute Python linter with a few issues initially. The lines of some of the code exceeded the cut off point. In most cases, these were print functions whose strings I needed to reduce. This is especially true when I added to simple_colors and colorama modules to try colour the code in the terminal. In these cases, I set new variables with the strings for printing and printed the strings. 
+
+For example:
+
+`f_B = Fore.BLUE
+f_Y = Fore.YELLOW
+f_G = Fore.GREEN
+f_RT = Fore.RESET
+print("Type"+f_B+" 'league table' "+f_RT+"see the table: \n")
+print("Type"+f_Y+" 'enter results' "+f_RT+"to enter results: \n")
+print("Type"+f_G+" 'clear results' "+f_RT+"to begin again: \n")`
+
+Now the code passes through the linter with no issues. 
+
+![image of the run.py code ran through the Code Institute Linter](documents/readme%20images/linter_checker.png)
 ## Deployment
 
 The project was deployed using Code Institute's mock terminal for Heroku. 
@@ -126,8 +148,8 @@ The project was deployed using Code Institute's mock terminal for Heroku.
 
 - This YouTube video from Tech With Tim with help using the colorama module: https://www.youtube.com/watch?v=u51Zjlnui4Y
 
-- This Stack Overflow user with help with colouring tables: https://stackoverflow.com/questions/76734963/colorama-not-working-with-tabulate-to-display-colored-output-in-python
-
 - The vast majority of solutions to issues I ran into came from Stack Overflow especially regarding While loop issues and Try, Except statements.
 
-- This YouTube video with help regarding saving to a file and loading from a file: https://www.youtube.com/watch?v=Uh2ebFW8OYM
+- This YouTube video with help regarding saving to a file and loading from a file. The code was adapted directly from this video: https://www.youtube.com/watch?v=Uh2ebFW8OYM
+
+- My tutor Antonio with advice and help along the way.

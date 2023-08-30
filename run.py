@@ -38,6 +38,8 @@ Each option is either part of the table or to return to the menu.
 It validates for the correct input with an if, elif, else statement.
 It runs a while loop until the data entered is valid.
 """
+
+
 def table(standings):
     while True:
         print(blue("'View top four, bottom three or the entire table.\n"))
@@ -84,6 +86,8 @@ This function takes the row index in use by all_matches function.
 It then writes the row index into the progress.txt file.
 If the user chooses not to continue when asked the row number will be saved.
 """
+
+
 def save_progress(index):
     with open("progress.txt", "w") as f:
         f.write(str(index))
@@ -94,6 +98,8 @@ This function is called upon to read the saved data in the progress.txt file.
 It tries to find the row number to serve as the point to start off again.
 It returns the content either as an integer or a string 0 if no value is found.
 """
+
+
 def load_progress():
     try:
         with open("progress.txt", "r") as f:
@@ -111,6 +117,8 @@ This function will be called if the user chooses to view the table whenever.
 It checks if the input is valid with a While loop and If statement.
 It calls the table function to display the table.
 """
+
+
 def new_matchday(matchday_number):
     print(f"Starting {matchday_number}? \n")
     while True:
@@ -130,6 +138,8 @@ It prints the current natch and asks for an input for each teams goals.
 It calls the update_fixtures fuction with the data - or to quit and go back.
 Data will be saved if they choose not to continue.
 """
+
+
 def all_matches():
     # Load progress from the progress.txt file
     start_index = load_progress()
@@ -163,6 +173,8 @@ Thhe function will try to write empty data in the cells or the files.
 It then updates specific cells in both the spreadsheets.
 If there is no error, it calls the menu function.
 """
+
+
 def clear_results(fixtures, standings):
     try:
         with open("progress.txt", "w") as f:
@@ -196,6 +208,8 @@ It finds the users choice and calls the correct function.
 It confirms if the user wants to clear all data and start again.
 The user also has a choice to exit the program.
 """
+
+
 def menu():
     while True:
         print("-----------------------------------------------")
@@ -237,6 +251,8 @@ It prints back what was inputted and finds the row value for each matches.
 It first updates the two cells with points the goals scored by each team.
 It then updates further two cells with the goal difference of each match.
 """
+
+
 def update_fixtures(match, home_result, away_result):
     print("\n" + str(home_result) + " : " + str(away_result) + "\n")
     row = int(match[0])
@@ -254,6 +270,8 @@ It will find the team name from the standings sheet to get its row number.
 It then calculates the goal difference for the home and away team.
 It then uses an if, elif, else statement to determine what cells to update.
 """
+
+
 def update_standings(match, home_result, away_result):
 
     cell_home = standings.find(str(match[3]))
@@ -285,6 +303,8 @@ It uses the sort function to display the rows by points in descending order.
 It then uses an if statement to check if there are two or more top teams.
 It will then resort the top teams by goal difference
 """
+
+
 def sort():
     # The standings are sorted by points
     standings.sort((3, 'des'), range='A2:C21')
@@ -299,11 +319,14 @@ def sort():
         # This will sort by goal difference if points are equal
         standings.sort((2, 'des'), range=range_string)
 
+
 """
-This code runs when the season is over i.e loop of matches is finished.
+This code runs when the season is over and all matches values entered.
 It prints the teams in the top three positions.
-The asks if the user would like to view the entire table.
+The asks if the user would like to view the entire table one last time.
 """
+
+
 def end_of_season(standings):
     print(blue("We have reached the end of the season! \n"))
     first = standings.acell("A2").value
