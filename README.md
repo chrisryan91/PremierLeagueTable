@@ -114,9 +114,9 @@ I have manual tested the program by running it the whole way through. The progre
 
 - There were many bugs in both the functions to update the spreadsheets. Wrong values were inputted in the right places. The right values were inputted in the wrong places. It took a combing with a fine toothcomb but the values entered for each cell are correct.
 
-- I ran into bugs whenever I tried to validate code. I would use a While loop in a function and break it at the wrong point. I could continue at the wrong point. This kept on happened whenever I tried to validate an input and ask for the input again. This was the case for the table function, all_matches function and menu functions. I used Stack Overflow to resolve these issues. I sometimes created separate functions to validate an input such as creating the validate_integer_input function.
+- I ran into bugs whenever I tried to validate input. I would use a While loop in a function and break or continue it at the wrong point. This kept on happened whenever I tried to validate an input and ask for the input again. This was the case for the table function, all_matches function and menu functions. I used Stack Overflow to resolve these issues. I sometimes created separate functions to validate an input such as creating the validate_integer_input function.
   
-- - A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0.
+- A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0.
 
 #### Remaining Bugs
 
@@ -156,9 +156,15 @@ The project was deployed using Code Institute's mock terminal for Heroku.
 
 ## Credits & Acknowledgements
 
+- W3Schools
+
+- pythontutor.com 
+
+- This document from WhySports.com with a fixture list: https://drive.google.com/file/d/1uBp6k3KnSF0JRONhWPQxjf3J4ia2X_OA/view
+
 - This YouTube video from Tech With Tim with help using the Colorama module: https://www.youtube.com/watch?v=u51Zjlnui4Y
 
-- The vast majority of solutions to issues I ran into came from Stack Overflow, especially regarding While loop issues and Try, Except statements.
+- Stack Overflow. The vast majority of solutions to issues I ran into came from Stack Overflow, especially regarding While loop issues and Try, Except statements.
 
 - This YouTube video with help with saving to a file and loading from a file. The code was adapted directly from this video: https://www.youtube.com/watch?v=Uh2ebFW8OYM
 
