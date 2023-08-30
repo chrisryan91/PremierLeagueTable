@@ -52,7 +52,7 @@ The current logic flow is similar. The logic of the program is documented with L
 #### Google Sheet Integration 
 - The program interacts with a Google Sheet document titled *League table*. The document contains two worksheets titled *standings* and *fixtures*. Data is taken from the *fixtures* worksheet. Resulting data updates both the *fixtures* and *standings* worksheet. *Standings* maintains the sorted league. 
 - The *fixtures* sheet stores the values for the goals scored for each team and the goal difference for each team for each game.
-- The *standings* sheet stores the points for each team and the goal difference over the course of the entire season.
+- The *standings* sheet stores the points for each team and the goal difference throughout of the entire season.
 
 #### Interface and Interaction
 - The menu will provide users with an interface with different options. Each option has further options to choose from i.e. entering match results. The option to return to the menu is available at any point while running the program.
@@ -130,7 +130,7 @@ I have manual tested the program by running it the whole way through. The progre
   
 - A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0.
 
-- Lastly, when I deployed my project to Heroku, I noticed another bug. If choosing to quit entering inputs for the match scores, the user chose to quit and they were returned to the menu where they were faced again with four options. In returning, if choosing to exit the program, the program would not exit, but the all_matches function would be called. I should not have called the menu function from within the all_matches function - it caused an error. To resolve this, I needed to ask the question - "Continue? Yes or no?" - as a separate input option after inputting the match data. I used a while loop with an if, elif, else statement inside it. This seemingly resolved the issue but being asked to input "yes" or "no" after every match may lead to a frustrating user experience.
+- Lastly, when I deployed my project to Heroku, I noticed another bug. If choosing to quit entering inputs for the match scores, the user chose to quit and they were returned to the menu where they were faced again with four options. If choosing to exit the program, the program would not exit, but the all_matches function would be called. I should not have called the menu function from within the all_matches function - it caused an error. To resolve this, I needed to ask the question - "Continue? Yes or no?" - as a separate input option after inputting the match data. I used a while loop with an if, elif, else statement inside it. This seemingly resolved the issue but being asked to input "yes" or "no" after every match may lead to a frustrating user experience.
 
 #### Remaining Bugs
 
