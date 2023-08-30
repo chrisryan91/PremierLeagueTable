@@ -122,7 +122,7 @@ It calls the table function to display the table.
 def new_matchday(matchday_number):
     print(f"Starting {matchday_number}? \n")
     while True:
-        view_table = input("Would you like to view the table?").lower()
+        view_table = input("Would you like to view the table? \n").lower()
         if view_table in ['yes', 'no']:
             break
         else:
@@ -153,12 +153,12 @@ def all_matches():
         print(Fore.RED + f"{match[3]} vs. {match[4]} - {match[3]} at home!\n")
         print(Fore.YELLOW + "Please enter one positive integer or zero! \n")
         f_rst = Fore.RESET
-        chc_a = Fore.BLUE + f"Enter goals for {match[3]} (or 'quit')\n" + f_rst
+        chc_a = Fore.BLUE + f"Enter goals for {match[3]} (or 'quit') \n" + f_rst
         home_result = validate_integer_input(chc_a, True)
         if home_result is False:
             save_progress(row_number)
             break
-        chc_b = Fore.MAGENTA + f"Enter goals for {match[4]}\n" + f_rst
+        chc_b = Fore.MAGENTA + f"Enter goals for {match[4]} \n" + f_rst
         away_result = validate_integer_input(chc_b)
         # Update the rest in the fixture worksheet
         update_fixtures(match, home_result, away_result)
@@ -224,14 +224,14 @@ def menu():
         print("Type"+f_Y+" 'enter results' "+f_RT+"to enter results: \n")
         print("Type"+f_G+" 'clear results' "+f_RT+"to begin again: \n")
         print("Type"+f_M+" 'exit' "+f_RT+"to exit program: \n")
-        choice = input(Fore.RED + "Enter choice: "+Fore.RESET+"\n")
+        choice = input(Fore.RED + "Enter choice: "+Fore.RESET+" \n")
         if choice.strip().lower() == str("league table"):
             table(standings)
         elif choice.strip().lower() == str("enter results"):
             all_matches()
         elif choice.strip().lower() == str("clear results"):
             while True:
-                confirmation = input("Are you sure? Type 'yes' or 'no': ")
+                confirmation = input("Are you sure? Type 'yes' or 'no': \n")
                 if confirmation.strip().lower() == "yes":
                     clear_results(fixtures, standings)
                     break
@@ -338,7 +338,7 @@ def end_of_season(standings):
     print(green("Runner up is " + second + "!\n"))
     print(magenta("Third place is " + third + "!\n"))
     while True:
-        view_table = input(red("Would you like to view the table?")).lower()
+        view_table = input(red("Would you like to view the table?\n")).lower()
         if view_table in ['yes', 'no']:
             break
         else:
