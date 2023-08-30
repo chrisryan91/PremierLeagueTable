@@ -24,7 +24,7 @@ When the program runs, you user is given four menu options - view table, enter r
 
 ![image of results entry](documents/readme%20images/match_day_entry.png)
 
-Choosing to enter the results will ask the user to enter the goals scored by each team for each of the fixtures. Firstly, the goals scored by the team playing at home; secondly, the goals scored by the team playing away from home. After the results from each matchday are entered, the option is presented to view the table. However, data is saved and the table can be viewed at any point by returning to the menu. 
+Choosing to enter the results will ask the user to enter the goals scored by each team for each of the fixtures. Firstly, the goals scored by the team playing at home; secondly, the goals scored by the team playing away from home. After the results from each matchday are entered, the option is presented to view the table. Data is saved throughout and the table can be viewed at any point by returning to the menu.
 
 ![image of the top four](documents/readme%20images/top_four.png)
 
@@ -32,11 +32,11 @@ Choosing to enter the results will ask the user to enter the goals scored by eac
 
 The third option from the menu is to clear the saved data and clear the table - this will bring the program back to the beginning by removing text from the progress.txt file and data from the associated spreadsheets. When entering results again, you will be brought back to matchday one.
 
-![image of the the end of the season function](documents/readme%20images/end_of_season.png)
+![image of the choosing to 'clear results'](documents/readme%20images/clear_results.png)
 
 In this English example, 380 games are played for 38 matchdays with ten games per matchday. At the end of the season, when all the games of rows have been looped through, the champions and runners-up are printed to the terminal with the option to view to entire table again.
 
-![image of the choosing to 'clear results'](documents/readme%20images/clear_results.png)
+![image of the the end of the season function](documents/readme%20images/end_of_season.png)
 
 ### Logic
 
@@ -86,7 +86,7 @@ Google Sheets were used to model the data for this program. Google Sheets allowe
 
 The fixtures worksheet contains rows for each game of the season. 
 
-There are nine headers in the fixtures worksheet:
+There are no headers but each column represents in the fixtures worksheet:
 
 1. The match number
 2. The matchday number
@@ -101,7 +101,7 @@ There are nine headers in the fixtures worksheet:
 ![image of the fixtures spreadsheet](documents/readme%20images/fixtures_sheet.png)
 ### Standings Worksheet
 
-The standings worksheet contains the table itself. The row values are for each team. There are no headers. Each of the columns contains values for:
+The standings worksheet contains the table itself. The row values are for each team. There are three headers:
 
 1. Team name
 2. Overall goal difference
@@ -111,11 +111,11 @@ The standings worksheet contains the table itself. The row values are for each t
 
 ### Progress tracking and saving
 
-There is a progress.txt file in the same directory of the program that will save data. Specifically, it saves the row number of the last match that was updated. When the program runs again it takes off from there. 
+There is a progress.txt file in the same directory of the program that will save data. Specifically, it saves the row number of the last match that was updated. When the program runs again, it takes off from there. 
 
 ### Data processing
 
-The program processes goal differences, updates the standings, updates the points and then sorts by these values. A user interacts with the command-line interface (CLI) to input the values, view the league, and clear the results. 
+The program processes goal differences, updates the standings, updates the points, and then sorts by these values. A user interacts with the command-line interface (CLI) to input the values, view the league, and clear the results. 
 
 ## Testing
 
@@ -128,9 +128,9 @@ I have manual tested the program by running it the whole way through. The progre
 
 - I ran into bugs whenever I tried to validate input. I would use a While loop in a function and break or continue it at the wrong point. This kept on happened whenever I tried to validate an input and ask for the input again. This was the case for the table function, all_matches function and menu functions. I used Stack Overflow to resolve these issues. I sometimes created separate functions to validate an input such as creating the validate_integer_input function.
   
-- A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. I ran into a bug where if the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0.
+- A bug I noticed just before deployment occurs when using the validate_input function to validate if an input is a positive integer. I needed to validate if the user wanted to quit rather than continue inputting results. If the users input was 'quit' or a negative number, the loop was exited and the end_of_season function ran. I fixed this bug by calling the menu function when 'quit' was inputted. I added the check to see if the input was greater than 0. However, this fix led to another bug:
 
-- Lastly, when I deployed my project to Heroku, I noticed another bug. If choosing to quit entering inputs for the match scores, the user chose to quit and they were returned to the menu where they were faced again with four options. If choosing to exit the program, the program would not exit, but the all_matches function would be called. I should not have called the menu function from within the all_matches function - it caused an error. To resolve this, I needed to ask the question - "Continue? Yes or no?" - as a separate input option after inputting the match data. I used a while loop with an if, elif, else statement inside it. This seemingly resolved the issue but being asked to input "yes" or "no" after every match may lead to a frustrating user experience.
+- When I deployed my project to Heroku, I noticed another bug linked to the above bug. If choosing to quit entering inputs for the match scores, the user chose to quit and they were returned to the menu where they were faced again with four options. If choosing to exit the program, the program would not exit, but the all_matches function would be called. I should not have called the menu function from within the all_matches function - it caused an error. To resolve this, I needed to ask the question - "Continue? Yes or no?" - as a separate input option after inputting the match data. I used a while loop with an if, elif, else statement inside it. This seemingly resolved the issue but being asked to input "yes" or "no" after every match may lead to a frustrating user experience.
 
 #### Remaining Bugs
 
