@@ -98,8 +98,6 @@ This function will validate whether the input is an integer.
 def validate_integer_input(prompt, allow_quit=False):
 
     user_input = input(prompt)
-    if user_input == "quit" and allow_quit:
-        return None
     while True:
         try:
             value = int(user_input)
@@ -185,22 +183,25 @@ def all_matches():
         print(Fore.RED + f"{match[3]} vs. {match[4]} - {match[3]} at home!\n")
         print(Fore.YELLOW + "Please enter one positive integer or zero! \n")
         f_rst = Fore.RESET
-        chc_a = Fore.BLUE + f"Enter goals for {match[3]} (or 'quit')\n"+f_rst
-        home_result = validate_integer_input(chc_a, True)
-        if home_result is None:
-            if_quit = row_number-1
-            save_progress(if_quit)
-            menu()
+        chc_a = Fore.BLUE + f"Enter goals for {match[3]} \n"+f_rst
+        home_result = validate_integer_input(chc_a)
         chc_b = Fore.MAGENTA + f"Enter goals for {match[4]} \n" + f_rst
         away_result = validate_integer_input(chc_b)
-        if away_result is None:
-            if_quit = row_number-1
-            save_progress(if_quit)
-            menu()
         # Update the rest in the fixture worksheet
         update_fixtures(match, home_result, away_result)
         # Update the standings in the corresponding worksheet
         update_standings(match, home_result, away_result)
+        while True:
+            cont_ip = Fore.GREEN + "Would you like to continue? Yes or no? \n" + f_rst
+            cont = input(cont_ip).lower()
+            if str(cont) == "yes":
+                break
+            elif str(cont) == "no":
+                return False
+            else:
+                print("Invalid data! Try again!")
+                continue
+            
     save_progress(row_number)
     end_of_season(standings)
 

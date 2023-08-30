@@ -5,9 +5,9 @@ When the results of the games are finalised after each match week, a user can up
 
 The program utilizes the 2023/2024 English Premier League season. However, the program could run any soccer league by updating the associated spreadsheet. 
 
-[Premier League Table](link)
+[Premier League Table](https://leaguetable-py-0dda4e1684da.herokuapp.com/)
 
-![image of the program running on Heroku on different devices](image.jpg)
+![image of the program running on Heroku on different devices](documents/readme%20images/am_i_responsive.png)
 
 ## Owner Goals
 
